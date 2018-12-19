@@ -24,10 +24,14 @@ Item::Item(TYPE typ) {
 		Item(T_FREESPACE);
 	}
 }
-Item::Item(TYPE typ, int attStr, int needStr, int needDex, int needIn, int needSt, int needLu, int giveStr, int giveDex, int giveIn, int giveSt, int giveLu)
+Item::Item(TYPE typ, int forWho, string name, int attStr, int needStr, int needDex, int needIn, int needSt, int needLu, int giveStr, int giveDex, int giveIn, int giveSt, int giveLu, QUALITY quality)
 {
 	this->typ = typ;
+	this->quality = quality;
+	this->forWho = forWho;
+	this->attStr = attStr;
 
+	this->itemName = name;
 	this->needStr = needStr;
 	this->needDex = needDex;
 	this->needIn = needIn;
@@ -42,11 +46,105 @@ Item::Item(TYPE typ, int attStr, int needStr, int needDex, int needIn, int needS
 
 }
 
-void Item::showItem() {
-	cout << "Typ przedmiotu : " << this->typ;
-	cout << "Potrzebna sila : " << this->needStr;
+TYPE Item::getType()
+{
+	return this->typ;
+}
+
+void Item::showItem(int playerClass){
+	BLUE; cout << "Typ przedmiotu : "; WHITE;
+	switch (static_cast<int>(this->typ)) {
+	case 0:
+		cout << "BROÑ";
+		break;
+	case 1:
+		cout << "PANCERZ";
+		break;
+	case 2:
+		cout << "NASZYJNIK";
+		break;
+	case 3:
+		cout << "PIERŒCIEÑ";
+		break;
+	case 4:
+		cout << "WOLNE MIEJSCE";
+		break;
+	}
 	cout << endl;
-	cout << "Potrzebna zwinnosc : " << this->needDex;
+	if ((static_cast<int>(this->typ)) != 4) {
+		gotoxy(2, 6);
+		BLUE; cout << "Nazwa: "; WHITE; cout << this->itemName << endl;
+		gotoxy(2, 7);
+		BLUE; cout << "Potrzebna sila : "; WHITE; cout << this->needStr << endl;
+		gotoxy(2, 8);
+		BLUE; cout << "Potrzebna zwinnosc : "; WHITE; cout << this->needDex << endl;
+		gotoxy(2, 9);
+		BLUE; cout << "Potrzebna inteligencja: "; WHITE; cout << this->needIn << endl;
+		gotoxy(2, 10);
+		BLUE; cout << "Potrzebna wytrzyma³oœæ: "; WHITE; cout << this->needSt << endl;
+		gotoxy(2, 11);
+		BLUE; cout << "Potrzebne szczêœcie: "; WHITE; cout << this->needLu << endl;
+		gotoxy(2, 12);
+		BLUE; cout << "Jakoœæ przedmiotu: ";
+		switch (this->quality) {
+		case 0:
+			PINK; cout << "LEGENDARNY" << endl;
+			break;
+		case 1:
+			LIME; cout << "RZADKI" << endl;
+			break;
+		case 2:
+			WHITE; cout << "PRZECIÊTNY" << endl;
+			break;
+		case 3:
+			GREY; cout << "ŒMIEÆ" << endl;
+			break;
+		}
+		gotoxy(2, 13);
+		BLUE; cout << "Wymagana klasa: "; WHITE;
+		switch (this->forWho) {
+		case 0:
+			if (playerClass == forWho) {
+				WHITE; cout << "WOJOWNIK";
+			}
+			else {
+				RED; cout << "WOJOWNIK"; WHITE;
+			}
+			break;
+		case 1:
+			if (playerClass == forWho) {
+				WHITE; cout << "£UCZNIK";
+			}
+			else {
+				RED; cout << "£UCZNIK"; WHITE;
+			}
+			break;
+		case 2:
+			if (playerClass == forWho) {
+				WHITE; cout << "MAG";
+			}
+			else {
+				RED; cout << "MAG"; WHITE;
+			}
+			break;
+		case 3:
+			if (playerClass == forWho) {
+				WHITE; cout << "Z£ODZIEJ";
+			}
+			else {
+				RED; cout << "Z£ODZIEJ"; WHITE;
+			}
+			break;
+		case 4:
+			if (playerClass == forWho) {
+				WHITE; cout << "SZAMAN";
+			}
+			else {
+				RED; cout << "SZAMAN"; WHITE;
+			}
+			break;
+		}
+	}
 }
 
 Item::~Item()

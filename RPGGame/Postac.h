@@ -34,8 +34,9 @@ public:
 	void chooseName(); // Wybor nicku
 	string getName();
 	void buildCharacter(); //Budowanie gracza, tj. ustawienie pierwszych wartosci umiejetnosci dla postaci.
-	void showEq(); //Shows EQ
-	void initializeEq();//Ustaw eq na puste
+	void showEq(int); //Shows item in [i] place in EQ
+	void initializeEq();//Sets all EQ spaces as free
+	void addItem();
 	int getXp();
 	int getLvl();
 	virtual void atak() = 0; //Atak dla kazdej postaci osobno.

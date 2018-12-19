@@ -14,6 +14,7 @@ void test() {
 	GUI game;
 	game.intro(pointer, warrior, archer, mage, thief, shaman);
 	game.drawGUI(postac);
+	game.drawEQ(postac);
 }
 int main()
 {

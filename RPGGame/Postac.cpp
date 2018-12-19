@@ -586,13 +586,22 @@ void Postac::initializeEq()
 		eq[i] = (T_FREESPACE);
 	}
 }
-void Postac::showEq() 
+void Postac::addItem()
 {
+	int space=-1;
 	for (int i = 0; i < 15; i++) {
-		eq[i].showItem();
-		cout << endl;
-		cout << endl;
+		if (eq[i].getType() == T_FREESPACE) {
+			space = i;
+			break;
+		}
 	}
+	if (space != -1) {
+		eq[space] = Item(T_ARMOR, 0, "Zbroja paladyna", 0, 10, 4, 2, 3, 0, 0, 0, 0, 0, 0, Q_LEGENDARY);
+	}
+}
+void Postac::showEq(int i) 
+{
+		eq[i].showItem(static_cast<int>(this->klasa));
 }
 int Postac::getXp()
 {

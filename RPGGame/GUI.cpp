@@ -20,6 +20,16 @@ void outline() {
 		}
 	}
 }
+void clearTopLeftBox() {
+	{
+		for (int i = 2; i < 29; i++) {
+			for (int j = 2; j < 42; j++) {
+				gotoxy(j, i);
+				BLACKBG; cout << " ";
+			}
+		}
+	}
+}
 
 GUI::GUI()
 {
@@ -106,6 +116,37 @@ void GUI::drawGUI(Postac *character)
 	BLUE; cout << "XP: "; WHITE; 
 	gotoxy(22, 34);
 	cout << character->getXp();
+}
+void GUI::drawEQ(Postac *character) {
+	int i = 2;
+	char k;
+	character->addItem();
+	gotoxy(2, 5);
+	character->showEq(i);
+	do {
+		clearTopLeftBox();
+		for (int i = 2; i < 42; i++) {
+			gotoxy(i, 4);
+			GOLDBG; cout << " "; BLACKBG;
+		}
+		gotoxy(17, 2);
+		BLUE; cout << "EKWIPUNEK"; WHITE;
+		gotoxy(19, 3);
+		if (i + 1 < 10) {
+			YELLOW; cout << "0" << i + 1; WHITE;
+		}
+		else {
+			YELLOW; cout << i + 1; WHITE;
+		}
+		cout << "/" << 15;
+		gotoxy(2, 5);
+		character->showEq(i);
+		k = _getch();
+		if (k == DIR_RIGHT) i++;
+		else if (k == DIR_LEFT) i--;
+		if (i < 0) i = 0;
+		else if (i > 14) i = 14;
+	} while (k != ESC);
 }
 
 GUI::~GUI()
