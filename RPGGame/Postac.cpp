@@ -1,7 +1,6 @@
 
 #include "pch.h"
 #include "Postac.h"
-
 Postac::Postac()
 {
 }
@@ -89,6 +88,9 @@ CLASS Postac::chooseClass()
 		}
 	} while (k != ENTER);
 	return static_cast<CLASS>(wybor);
+}
+void Postac::setClass(CLASS klasa) {
+	this->klasa = klasa;
 }
 CLASS Postac::getClass() 
 {
@@ -591,4 +593,12 @@ void Postac::showEq()
 		cout << endl;
 		cout << endl;
 	}
+}
+int Postac::getXp()
+{
+	return this->xp;
+}
+int Postac::getLvl()
+{
+	return this->lvl;
 }

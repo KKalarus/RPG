@@ -6,7 +6,7 @@ class Item
 private:
 	TYPE typ;
 	
-	string name;
+	string itemName;
 
 	int needStr;
 	int needDex;

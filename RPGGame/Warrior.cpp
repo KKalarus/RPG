@@ -7,6 +7,7 @@ Warrior::Warrior(CLASS)
 
 void Warrior::atak()
 {
+	cout << "Warrior atakuje";
 }
 
 void Warrior::lvlup()

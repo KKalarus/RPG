@@ -24,7 +24,7 @@ void setwindowsize(int x, int y)
 	HWND console = GetConsoleWindow();
 	RECT r;
 	GetWindowRect(console, &r);
-	MoveWindow(console, r.left, r.top, 1220, 600, TRUE);
+	MoveWindow(console, r.left, r.top, 1216, 599, TRUE);
 	COORD c;
 	c.X = x;
 	c.Y = y;

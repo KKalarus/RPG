@@ -42,7 +42,35 @@ void Dialog1()
 	Sleep(1500);
 	cout << " Dobra. S³uchaj m³ody, koniec tego dobrego. Powiedz mi, co robi³eœ w mieœcie podczas ataku? Wygl¹dasz zadziwiaj¹co znajomo..." << endl;
 }
-
+void introWoj() {
+	WHITE;
+	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Wojownik. "; Sleep(900);
+	cout << "Zna³em kilku takich jak Ty."; Sleep(900); cout << " M³ody, narwany."; Sleep(900); cout << " Nie dziwne, ¿e ktoœ spuœci³ Ci srogie lanie.";
+}
+void introArch()
+{
+	WHITE;
+	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "£ucznik. "; Sleep(900);
+	cout << "Zachcia³o siê polowañ, co?"; Sleep(900); cout << " No có¿, dziwne ¿e tutaj trafi³eœ."; Sleep(900); cout << " Z Twoj¹ zwinnoœci¹, powinieneœ daæ sobie radê.";
+}
+void introMage()
+{
+	WHITE;
+	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Mag. "; Sleep(900);
+	cout << "Có¿ by to by³ za zaszczyt..."; Sleep(900); cout << " Gdyby nie te okolicznoœci."; Sleep(900); cout << " Myœla³em, ¿e jesteœcie na ogó³ trochê m¹drzejsi.";
+}
+void introThief()
+{
+	WHITE;
+	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Z³odziej? "; Sleep(900);
+	cout << "Nie s¹dzi³em, ¿e siê tak ³atwo przyznasz."; Sleep(900); cout << " Ale, nie jestem tutaj od sprawiedliwoœci."; Sleep(900); cout << " Przemyœl swoje zachowanie, bêdziesz mia³ na to mnóstwo czasu.";
+}
+void introShaman()
+{
+	WHITE;
+	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Szaman. "; Sleep(900);
+	cout << "Tym razem to ja ciebie wskrzesi³em z martwych."; Sleep(900); cout << " *mê¿czyzna zaczyna siê œmiaæ*"; Sleep(900); cout << " Mo¿e kiedyœ mi siê odwdziêczysz.";
+}
 void Dialog2()
 {
 	WHITE;
