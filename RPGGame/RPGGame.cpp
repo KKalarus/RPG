@@ -18,8 +18,11 @@ void test() {
 }
 int main()
 {
+	system("MODE CON: COLS=150 LINES=35");
 	setlocale(LC_CTYPE, "Polish");
-	setwindowsize(148, 35);
+	//setwindowsize(150, 35);
+	//HWND console = GetConsoleWindow();
+	//console.WindowWidth = console.LargestWindowWidth();
 	test();
 	_getch();
 }
