@@ -24,12 +24,13 @@ Item::Item(TYPE typ) {
 		Item(T_FREESPACE);
 	}
 }
-Item::Item(TYPE typ, int forWho, string name, int attStr, int needStr, int needDex, int needIn, int needSt, int needLu, int giveStr, int giveDex, int giveIn, int giveSt, int giveLu, QUALITY quality)
+Item::Item(TYPE typ, int forWho, string name, int needStr, int needDex, int needIn, int needSt, int needLu, int giveStr, int giveDex, int giveIn, int giveSt, int giveLu, int attStr, int armor, QUALITY quality)
 {
 	this->typ = typ;
 	this->quality = quality;
 	this->forWho = forWho;
 	this->attStr = attStr;
+	this->armor = armor;
 
 	this->itemName = name;
 	this->needStr = needStr;
@@ -144,7 +145,93 @@ void Item::showItem(int playerClass){
 			}
 			break;
 		}
+		gotoxy(2, 15);
+		BLUE; cout << "ZA£O¯ONY: "; WHITE;
+		switch (isItemEquiped()) {
+			case true:
+				GREEN; cout << "TAK"; WHITE;
+				break;
+			case false:
+				cout << "NIE";
+				break;
+		}
 	}
+}
+
+int Item::getGStr()
+{
+	return this->giveStr;
+}
+
+int Item::getNStr()
+{
+	return this->needStr;
+}
+
+int Item::getGDex()
+{
+	return this->giveDex;
+}
+
+int Item::getNDex()
+{
+	return this->needDex;
+}
+
+int Item::getGIn()
+{
+	return this->giveIn;
+}
+
+int Item::getNIn()
+{
+	return this->needIn;
+}
+
+int Item::getGSt()
+{
+	return this->giveSt;
+}
+
+int Item::getNSt()
+{
+	return this->needSt;
+}
+
+int Item::getGLu()
+{
+	return this->giveLu;
+}
+
+int Item::getNLu()
+{
+	return this->needLu;
+}
+
+int Item::getClass()
+{
+	return this->forWho;
+}
+
+int Item::getAttStr()
+{
+	return this->attStr;
+}
+
+int Item::getArmor()
+{
+	return this->armor;
+}
+void Item::equip() {
+	this->isEquiped = true;
+}
+void Item::takeOff()
+{
+	this->isEquiped = false;
+}
+bool Item::isItemEquiped()
+{
+	return this->isEquiped;
 }
 
 Item::~Item()

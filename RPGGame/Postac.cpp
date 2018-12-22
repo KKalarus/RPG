@@ -1,8 +1,10 @@
 
 #include "pch.h"
 #include "Postac.h"
+
 Postac::Postac()
 {
+	mapka[11][11].setCity();
 }
 
 Postac::~Postac()
@@ -92,10 +94,7 @@ CLASS Postac::chooseClass()
 void Postac::setClass(CLASS klasa) {
 	this->klasa = klasa;
 }
-CLASS Postac::getClass() 
-{
-	return this->klasa;
-}
+
 void Postac::chooseRace() //Chooses race and gives basic points.
 {
 	int wybor = 0;
@@ -218,9 +217,7 @@ void Postac::chooseRace() //Chooses race and gives basic points.
 		break;
 	}
 }
-RACE Postac::getRace() {
-	return this->rasa;
-}
+
 void Postac::chooseName()
 {
 	string name;
@@ -237,9 +234,7 @@ void Postac::chooseName()
 	} while (name.length() > 15 && name.length() < 1);
 	this->name = name;
 }
-string Postac::getName() {
-	return this->name;
-}
+
 void Postac::buildCharacter()
 {
 	this->freeAbilityPoints = 10;
@@ -596,18 +591,160 @@ void Postac::addItem()
 		}
 	}
 	if (space != -1) {
-		eq[space] = Item(T_ARMOR, 0, "Zbroja paladyna", 0, 10, 4, 2, 3, 0, 0, 0, 0, 0, 0, Q_LEGENDARY);
+		eq[space] = Item(T_ARMOR, 0, "Zbroja paladyna", 1, 1, 1, 1, 1, 0, 99, 0, 99, 0, 10, 24,Q_LEGENDARY);
 	}
 }
 void Postac::showEq(int i) 
 {
 		eq[i].showItem(static_cast<int>(this->klasa));
 }
-int Postac::getXp()
+bool Postac::visit()
 {
-	return this->xp;
+	char k;
+	int wybor = 0;
+	cout << "Natrafi³eœ na : ";
+	switch (static_cast<int>(mapka[playerY][playerX].getPlace())) {
+	case 0:
+		BLUE; cout << "LAS"; WHITE;
+		cout << "Chcesz siê w niego zapuœciæ? " << endl;
+	case 1:
+		BLUE; cout << "GORY"; WHITE;
+		cout << "Chcesz siê po nich przejœæ? ";
+	case 2:
+		BLUE; cout << "DOM"; WHITE;
+		cout << "Chcesz do niego wejœæ?";
+	case 3:
+		BLUE; cout << "JASKINIE"; WHITE;
+		cout << "Chcesz j¹ zbadaæ?";
+	case 4:
+		BLUE; cout << "MIASTO"; WHITE;
+		cout << "Chcesz je odwiedziæ?";
+	}
+	YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
+	do {
+		k = _getch();
+		if (k == DIR_RIGHT)wybor++;
+		else if (k == DIR_LEFT) wybor--;
+		if (wybor > 1) wybor = 1;
+		else if (wybor < 0) wybor = 0;
+		if (wybor == 0) {
+			YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
+		}
+		else {
+			cout << "NIE"; cout << "/"; 	YELLOW; cout << "TAK"; WHITE;
+		}
+	} while (k != ENTER);
+	if (wybor == 0) {
+		return false;
+	}
+	else {
+		mapka[playerY][playerX].visitPlace();
+		return true;
+	}
 }
-int Postac::getLvl()
-{
-	return this->lvl;
+void Postac::equipItem(int item) {
+	if (eq[item].isItemEquiped()) {
+		eq[item].takeOff();
+		this->str -= eq[item].getGStr();
+		this->dex -= eq[item].getGDex();
+		this->in -= eq[item].getGIn();
+		this->st -= eq[item].getGSt();
+		this->lu -= eq[item].getGLu();
+		this->attackValueMax -= eq[item].getAttStr();
+		this->attackValueMin -= eq[item].getAttStr();
+		this->armor -= eq[item].getArmor();
+	}
+	else {
+		TYPE currentItemType = eq[item].getType();
+		bool sameTypeEquiped = false;
+		for (int i = 0; i < 15; i++) {
+			if (eq[i].isItemEquiped() == true && eq[i].getType() == currentItemType) {
+				sameTypeEquiped = true;
+				break;
+			}
+		}
+		if (!sameTypeEquiped&&this->str >= eq[item].getNStr() && this->dex >= eq[item].getNDex() && this->in >= eq[item].getNIn() && this->st >= eq[item].getNSt() && this->lu >= eq[item].getNLu() && static_cast<int>(this->klasa) == eq[item].getClass()) {
+
+			eq[item].equip();
+
+			this->str += eq[item].getGStr();
+			this->dex += eq[item].getGDex();
+			this->in += eq[item].getGIn();
+			this->st += eq[item].getGSt();
+			this->lu += eq[item].getGLu();
+			this->attackValueMax += eq[item].getAttStr();
+			this->attackValueMin += eq[item].getAttStr();
+			this->armor += eq[item].getArmor();
+		}
+	}
 }
+
+//GET METHODS
+	CLASS Postac::getClass()
+	{
+		return this->klasa;
+	}
+	RACE Postac::getRace() {
+		return this->rasa;
+	}
+	string Postac::getName() {
+		return this->name;
+	}
+	int Postac::getXp()
+	{
+		return this->xp;
+	}
+	int Postac::getLvl()
+	{
+		return this->lvl;
+	}
+
+	int Postac::getStr()
+	{
+		return this->str;
+	}
+
+	int Postac::getDex()
+	{
+		return this->dex;
+	}
+
+	int Postac::getSt()
+	{
+		return this->st;
+	}
+
+	int Postac::getIn()
+	{
+		return this->in;
+	}
+
+	int Postac::getLu()
+	{
+		return this->lu;
+	}
+	int Postac::getHPotions()
+	{
+		return this->hPotions;
+	}
+	int Postac::getMPotions()
+	{
+		return this->mPotions;
+	}
+	int Postac::getHP()
+	{
+		return this->hp;
+	}
+	int Postac::getMinAttack()
+	{
+		return this->attackValueMin;
+	}
+	int Postac::getMaxAttack()
+	{
+		return this->attackValueMax;
+	}
+	int Postac::getArmor()
+	{
+		return this->armor;
+	}
+

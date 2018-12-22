@@ -13,8 +13,10 @@ using namespace std;
 void test() {
 	GUI game;
 	game.intro(pointer, warrior, archer, mage, thief, shaman);
-	game.drawGUI(postac);
-	game.drawEQ(postac);
+	do {
+		game.drawGUI(postac);
+		game.drawEQ(postac);
+	} while (true);
 }
 int main()
 {

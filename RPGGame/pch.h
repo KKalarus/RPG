@@ -25,10 +25,9 @@
 #include <conio.h>
 #include <string>
 #include "Functions.h"
-
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
-
-
 
 #endif //PCH_H

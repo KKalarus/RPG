@@ -21,16 +21,21 @@ void outline() {
 	}
 }
 void clearTopLeftBox() {
-	{
 		for (int i = 2; i < 29; i++) {
 			for (int j = 2; j < 42; j++) {
 				gotoxy(j, i);
 				BLACKBG; cout << " ";
 			}
 		}
+}
+void clearStatsBox() {
+	for (int i = 30; i < 35; i++) {
+		for (int j = 13; j < 150; j++) {
+			gotoxy(j, i);
+			BLACKBG; cout << " ";
+		}
 	}
 }
-
 GUI::GUI()
 {
 }
@@ -100,26 +105,131 @@ void GUI::drawGUI(Postac *character)
 	BLUE; cout << "IMIE: "; WHITE;
 	gotoxy(22, 30);
 	cout << character->getName();
+		gotoxy(35, 30);
+		BLUE; cout << "SI£A: "; WHITE;
+		gotoxy(50, 30);
+		cout << character->getStr();
+			gotoxy(63, 30);
+			BLUE; cout << "Atak: "; WHITE;
+			gotoxy(78, 30);
+			cout << character->getMinAttack() << "-" << character->getMaxAttack();
 	gotoxy(14, 31);
 	BLUE; cout << "KLASA: "; WHITE;
 	gotoxy(22, 31);
 	cout << character->getClass();
+		gotoxy(35, 31);
+		BLUE; cout << "ZWINNOŒÆ: "; WHITE;
+		gotoxy(50, 31);
+		cout << character->getDex();
+			gotoxy(63, 31);
+			BLUE; cout << "Armor: "; WHITE;
+			gotoxy(78, 31);
+			cout << character->getArmor();
 	gotoxy(14, 32);
 	BLUE; cout << "RASA: "; WHITE; 
 	gotoxy(22, 32);
 	cout << character->getRace();
+		gotoxy(35, 32);
+		BLUE; cout << "WYTRZYMA£OŒÆ: "; WHITE;
+		gotoxy(50, 32);
+		cout << character->getSt();
+			gotoxy(63, 32);
+			BLUE; cout << "HP: "; WHITE;
+			gotoxy(78, 32);
+			cout << character->getHP();
 	gotoxy(14, 33);
 	BLUE; cout << "LVL: "; WHITE; 
 	gotoxy(22, 33);
 	cout << character->getLvl();
+		gotoxy(35, 33);
+		BLUE; cout << "INTELIGENCJA: "; WHITE;
+		gotoxy(50, 33);
+		cout << character->getIn();
+			gotoxy(63, 33);
+			BLUE; cout << "HP Potions: "; WHITE;
+			gotoxy(78, 33);
+			cout << character->getHPotions();
 	gotoxy(14, 34);
-	BLUE; cout << "XP: "; WHITE; 
+	BLUE; cout << "XP: "; WHITE;
 	gotoxy(22, 34);
-	cout << character->getXp();
+	cout << character->getXp(); cout << "/" << (character->getLvl() + 1) * 100;
+		gotoxy(35, 34);
+		BLUE; cout << "SZCZÊŒCIE: "; WHITE;
+		gotoxy(50, 34);
+		cout << character->getLu();
+			gotoxy(63, 34);
+			BLUE; cout << "MANA Potions: "; WHITE;
+			gotoxy(78, 34);
+			cout << character->getHPotions();
+}
+void GUI::updateStats(Postac *character) {
+	clearStatsBox();
+	gotoxy(14, 30);
+	BLUE; cout << "IMIE: "; WHITE;
+	gotoxy(22, 30);
+	cout << character->getName();
+		gotoxy(35, 30);
+		BLUE; cout << "SI£A: "; WHITE;
+		gotoxy(50, 30);
+		cout << character->getStr();
+			gotoxy(63, 30);
+			BLUE; cout << "Atak: "; WHITE;
+			gotoxy(78, 30);
+			cout << character->getMinAttack() << "-" << character->getMaxAttack();
+	gotoxy(14, 31);
+	BLUE; cout << "KLASA: "; WHITE;
+	gotoxy(22, 31);
+	cout << character->getClass();
+		gotoxy(35, 31);
+		BLUE; cout << "ZWINNOŒÆ: "; WHITE;
+		gotoxy(50, 31);
+		cout << character->getDex();
+			gotoxy(63, 31);
+			BLUE; cout << "Armor: "; WHITE;
+			gotoxy(78, 31);
+			cout << character->getArmor();
+	gotoxy(14, 32);
+	BLUE; cout << "RASA: "; WHITE; 
+	gotoxy(22, 32);
+	cout << character->getRace();
+		gotoxy(35, 32);
+		BLUE; cout << "WYTRZYMA£OŒÆ: "; WHITE;
+		gotoxy(50, 32);
+		cout << character->getSt();
+			gotoxy(63, 32);
+			BLUE; cout << "HP: "; WHITE;
+			gotoxy(78, 32);
+			cout << character->getHP();
+	gotoxy(14, 33);
+	BLUE; cout << "LVL: "; WHITE; 
+	gotoxy(22, 33);
+	cout << character->getLvl();
+		gotoxy(35, 33);
+		BLUE; cout << "INTELIGENCJA: "; WHITE;
+		gotoxy(50, 33);
+		cout << character->getIn();
+			gotoxy(63, 33);
+			BLUE; cout << "HP Potions: "; WHITE;
+			gotoxy(78, 33);
+			cout << character->getHPotions();
+	gotoxy(14, 34);
+	BLUE; cout << "XP: "; WHITE;
+	gotoxy(22, 34);
+	cout << character->getXp(); cout << "/" << (character->getLvl() + 1) * 100;
+		gotoxy(35, 34);
+		BLUE; cout << "SZCZÊŒCIE: "; WHITE;
+		gotoxy(50, 34);
+		cout << character->getLu();
+			gotoxy(63, 34);
+			BLUE; cout << "MANA Potions: "; WHITE;
+			gotoxy(78, 34);
+			cout << character->getHPotions();
 }
 void GUI::drawEQ(Postac *character) {
-	int i = 2;
+	int i = 0;
 	char k;
+	character->addItem();
+	character->addItem();
 	character->addItem();
 	gotoxy(2, 5);
 	character->showEq(i);
@@ -146,6 +256,10 @@ void GUI::drawEQ(Postac *character) {
 		else if (k == DIR_LEFT) i--;
 		if (i < 0) i = 0;
 		else if (i > 14) i = 14;
+		if (k == ENTER) {
+			character->equipItem(i);
+			updateStats(character);
+		}
 	} while (k != ESC);
 }
 

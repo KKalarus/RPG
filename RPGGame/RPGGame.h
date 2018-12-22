@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
 #include <iostream>
-//#include "Postac.h"
 #include <Windows.h>
 #include <conio.h>
 #include "Warrior.h"

@@ -25,13 +25,33 @@ private:
 	
 	//CLASS needClass;
 	int attStr; //Wartoœæ ataku zadawanego przez broñ
+	int armor;
+
 	bool isEquiped = false;
 public:
 	Item();
 	Item(TYPE);
-	Item(TYPE,int,string,int,int,int,int,int,int,int,int,int,int,int,QUALITY);
+	Item(TYPE,int,string,int,int,int,int,int,int,int,int,int,int,int,int,QUALITY); //Typ przedmiotu, dla kogo, nazwa, wymagana: sila, zrecznosc, inteligencja, wytrzymalosc, szczescie DAWANE: sila, zrecznosc, inta, wytrzymalosc, szczescie, atak, armor, jakosc
 	TYPE getType();
 	void showItem(int);
+
+	int getGStr();
+	int getNStr();
+	int getGDex();
+	int getNDex();
+	int getGIn();
+	int getNIn();
+	int getGSt();
+	int getNSt();
+	int getGLu();
+	int getNLu();
+	int getClass();
+	int getAttStr();
+	int getArmor();
+
+	void equip();
+	void takeOff();
+	bool isItemEquiped();
 	~Item();
 };
 
