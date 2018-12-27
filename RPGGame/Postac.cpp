@@ -1,16 +1,89 @@
-
 #include "pch.h"
 #include "Postac.h"
 
 Postac::Postac()
 {
-	mapka[11][11].setCity();
+	for (int i = 0; i < 21; i++) {
+		for (int j = 0; j < 21; j++) {
+			mapka[i][j].setPlace();
+		}
+	}
+	mapka[10][10].setCity();
 }
-
+void Postac::showmap(Map*mapPointer) {
+	for (int i = 0; i < 21; i++) {
+		for (int j = 0; j < 21; j++) {
+			cout << mapka[i][j].getPlace() << " ";
+		}
+		cout << endl;
+	}
+}
 Postac::~Postac()
 {
-}
 
+}
+void Postac::moveStar() {
+	if (this->playerY > 0) {
+		gotoxy(6, 31);
+		YELLOW; cout << "/\\"; WHITE;
+	}
+	else {
+		gotoxy(6, 31);
+		WHITE; cout << " /\\";
+	}
+	if (this->playerY < 20) {
+		gotoxy(6, 33);
+		YELLOW; cout << "\\/"; WHITE;
+	}
+	else {
+		gotoxy(6, 33);
+		WHITE; cout << "\\/"; WHITE;
+	}
+	if (this->playerX > 0) {
+		gotoxy(4, 32);
+		YELLOW; cout << "<"; WHITE;
+	}
+	else {
+		gotoxy(4, 32);
+		WHITE; cout << "<"; WHITE;
+	}
+	if (this->playerX < 20) {
+		gotoxy(9, 32);
+		YELLOW; cout << ">"; WHITE;
+	}
+	else {
+		gotoxy(9, 32);
+		WHITE; cout << ">"; WHITE;
+	}
+}
+bool Postac::moveUp() {
+	if (this->playerY > 0) {
+		this->playerY--;
+		return true;
+	}
+	else return false;
+}
+bool Postac::moveDown() {
+	if (this->playerY < 20) {
+		this->playerY++;
+		return true;
+	}
+	else return false;
+}
+bool Postac::moveLeft() {
+	if (this->playerX > 0) {
+		this->playerX--;
+		return true;
+	}
+	return false;
+}
+bool Postac::moveRight() {
+	if (this->playerX < 20) {
+		this->playerX++;
+		return true;
+	}
+	else return false;
+}
 CLASS Postac::chooseClass()
 {
 	YELLOW;
@@ -581,7 +654,7 @@ void Postac::initializeEq()
 		eq[i] = (T_FREESPACE);
 	}
 }
-void Postac::addItem()
+void Postac::addItem(Item item)
 {
 	int space=-1;
 	for (int i = 0; i < 15; i++) {
@@ -592,6 +665,7 @@ void Postac::addItem()
 	}
 	if (space != -1) {
 		eq[space] = Item(T_ARMOR, 0, "Zbroja paladyna", 1, 1, 1, 1, 1, 0, 99, 0, 99, 0, 10, 24,Q_LEGENDARY);
+		eq[space] = item;
 	}
 }
 void Postac::showEq(int i) 
@@ -602,24 +676,65 @@ bool Postac::visit()
 {
 	char k;
 	int wybor = 0;
-	cout << "Natrafi³eœ na : ";
-	switch (static_cast<int>(mapka[playerY][playerX].getPlace())) {
-	case 0:
-		BLUE; cout << "LAS"; WHITE;
-		cout << "Chcesz siê w niego zapuœciæ? " << endl;
-	case 1:
-		BLUE; cout << "GORY"; WHITE;
-		cout << "Chcesz siê po nich przejœæ? ";
-	case 2:
-		BLUE; cout << "DOM"; WHITE;
-		cout << "Chcesz do niego wejœæ?";
-	case 3:
-		BLUE; cout << "JASKINIE"; WHITE;
-		cout << "Chcesz j¹ zbadaæ?";
-	case 4:
-		BLUE; cout << "MIASTO"; WHITE;
-		cout << "Chcesz je odwiedziæ?";
+	CLS;
+	for (int i = 15; i <= 21; i++) {
+		for (int j = 59; j <= 89; j++) {
+			gotoxy(j, i);
+			if (i == 15) {
+				GOLDBG; cout << " ";
+			}
+			else if (i == 21) {
+				GOLDBG; cout << " ";
+			}
+			else {
+				if (j == 59) {
+					GOLDBG; cout << " ";
+				}
+				else if (j == 89) {
+					GOLDBG; cout << " ";
+				}
+				else {
+					BLACKBG; cout << " ";
+				}
+			}
+		}
 	}
+	WHITE;
+	gotoxy(60, 16);
+	cout << "Natrafi³eœ na : ";
+	switch (mapka[playerY][playerX].getPlace()) {
+	case MT_FOREST:
+		BLUE; cout << "LAS"; WHITE;
+		gotoxy(60, 17);
+		cout << "Chcesz siê w niego zapuœciæ? ";
+		break;
+	case MT_MOUNTAINS:
+		BLUE; cout << "GORY"; WHITE;
+		gotoxy(60, 17);
+		cout << "Chcesz siê po nich przejœæ? ";
+		break;
+	case MT_HOUSE:
+		BLUE; cout << "DOM"; WHITE;
+		gotoxy(60, 17);
+		cout << "Chcesz do niego wejœæ?";
+		break;
+	case MT_CAVE:
+		BLUE; cout << "JASKINIE"; WHITE;
+		gotoxy(60, 17);
+		cout << "Chcesz j¹ zbadaæ?";
+		break;
+	case MT_CITY:
+		BLUE; cout << "MIASTO"; WHITE;
+		gotoxy(60, 17);
+		cout << "Chcesz je odwiedziæ?";
+		break;
+	default:
+		BLUE; cout << "DZIWNE...";
+		gotoxy(60, 17);
+		cout << "To nic z tego œwiata..?";
+		break;
+	}
+	gotoxy(60, 18);
 	YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
 	do {
 		k = _getch();
@@ -628,9 +743,11 @@ bool Postac::visit()
 		if (wybor > 1) wybor = 1;
 		else if (wybor < 0) wybor = 0;
 		if (wybor == 0) {
+			gotoxy(60, 18);
 			YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
 		}
 		else {
+			gotoxy(60, 18);
 			cout << "NIE"; cout << "/"; 	YELLOW; cout << "TAK"; WHITE;
 		}
 	} while (k != ENTER);
@@ -638,9 +755,25 @@ bool Postac::visit()
 		return false;
 	}
 	else {
+		CLS;
 		mapka[playerY][playerX].visitPlace();
+		if (mapka[playerY][playerX].isEnemy()) {
+			fight();
+			if (mapka[playerY][playerX].isChest()) openChest();
+		}
+		else {
+			if (mapka[playerY][playerX].isChest()) openChest();
+		}
 		return true;
 	}
+}
+void Postac::fight() {
+	//ADD FIGHT HERE;
+	LIME; cout << "WALKA!"; WHITE;
+}
+void Postac::openChest() {
+	CLS;
+
 }
 void Postac::equipItem(int item) {
 	if (eq[item].isItemEquiped()) {
@@ -683,6 +816,21 @@ void Postac::equipItem(int item) {
 	CLASS Postac::getClass()
 	{
 		return this->klasa;
+	}
+	int Postac::getActualPlace() {
+		return this->mapka[playerY][playerX].getPlace();
+	}
+	int Postac::getMana() {
+		return this->mana;
+	}
+	int Postac::getMoney() {
+		return this->money;
+	}
+	int Postac::getPlayerX() {
+		return this->playerX;
+	}
+	int Postac::getPlayerY() {
+		return this->playerY;
 	}
 	RACE Postac::getRace() {
 		return this->rasa;

@@ -13,9 +13,9 @@ using namespace std;
 void test() {
 	GUI game;
 	game.intro(pointer, warrior, archer, mage, thief, shaman);
+	game.drawGUI(postac);
 	do {
-		game.drawGUI(postac);
-		game.drawEQ(postac);
+		game.CharOptions(postac);
 	} while (true);
 }
 int main()
@@ -26,5 +26,7 @@ int main()
 	//HWND console = GetConsoleWindow();
 	//console.WindowWidth = console.LargestWindowWidth();
 	test();
+	CLS;
+	//postac->showmap(postac->mapPointer);
 	_getch();
 }

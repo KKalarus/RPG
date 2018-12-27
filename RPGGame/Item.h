@@ -52,6 +52,7 @@ public:
 	void equip();
 	void takeOff();
 	bool isItemEquiped();
+
 	~Item();
 };
 

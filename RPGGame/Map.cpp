@@ -1,15 +1,29 @@
 #include "pch.h"
 #include "Map.h"
-
-
+#include <random>
+#include <chrono>
 
 Map::Map()
 {
-	srand(time(NULL));
-	int place = (rand() % 50)+1;
+}
+
+void Map::setCity() {
+	this->place = MT_CITY;
+}
+
+void Map::setPlace() {
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> placer(1, 50);
+	std::uniform_int_distribution<std::mt19937::result_type> monsterr(1, 6);
+	std::uniform_int_distribution<std::mt19937::result_type> chestrr(1, 2);
+	int place = placer(rng);
+	int monster = monsterr(rng);
+	int chestr = chestrr(rng);
+	cout << "MIEJCE " << place;
 	if (place >= 1 && place <= 14) {
 		this->place = MT_FOREST;
-		if (rand() % 2 == 0) {
+		if (monster%2==0) {
 			this->enemy = false;
 		}
 		else {
@@ -18,20 +32,20 @@ Map::Map()
 	}
 	else if (place >= 15 && place <= 28) {
 		this->place = MT_MOUNTAINS;
-		if (rand() % 3 == 0) {
-			this->enemy = false;
+		if (monster%3==0) {
+			this->enemy = true;
 		}
 		else {
-			this->enemy = true;
+			this->enemy = false;
 		}
 	}
 	else if (place >= 29 && place <= 33) {
 		this->place = MT_HOUSE;
-		if (rand() % 6 == 0) {
-			this->enemy = false;
+		if (monster==6) {
+			this->enemy = true;
 		}
 		else {
-			this->enemy = true;
+			this->enemy = false;
 		}
 	}
 	else if (place >= 34 && place <= 47) {
@@ -42,16 +56,22 @@ Map::Map()
 		this->place = MT_CITY;
 		this->enemy = false;
 	}
-}
 
-void Map::setCity() {
-	this->place = MT_CITY;
+	if(chestr==1) this->chest = true;
+	else this->chest = false;
+
 }
 
 int Map::getPlace() {
 	return static_cast<int>(this->place);
 }
 
+bool Map::isChest() {
+	return this->chest;
+}
+bool Map::isEnemy() {
+	return this->enemy;
+}
 void Map::visitPlace()
 {
 	this->visited = true;

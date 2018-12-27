@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Item.h"
+#include <random>
 
 Item::Item()
 {
@@ -233,6 +234,7 @@ bool Item::isItemEquiped()
 {
 	return this->isEquiped;
 }
+
 
 Item::~Item()
 {

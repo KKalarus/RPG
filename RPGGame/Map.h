@@ -10,7 +10,10 @@ private:
 public:
 	Map();
 	void setCity();
+	void setPlace();
 	int getPlace();
+	bool isChest();
+	bool isEnemy();
 	void visitPlace();
 	~Map();
 };
