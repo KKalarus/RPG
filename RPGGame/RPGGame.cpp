@@ -2,6 +2,8 @@
 #include "pch.h"
 #include "RPGGame.h"
 #include "GUI.h"
+#include <random>
+
 /*		#######################
 		##TYTU£ DO WYMYŒLENIA##
 		##BUILD-NoOneCaresTBH##
@@ -26,7 +28,6 @@ int main()
 	//HWND console = GetConsoleWindow();
 	//console.WindowWidth = console.LargestWindowWidth();
 	test();
-	CLS;
 	//postac->showmap(postac->mapPointer);
 	_getch();
 }

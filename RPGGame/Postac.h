@@ -6,7 +6,7 @@ enum CLASS {C_WARRIOR, C_ARCHER, C_MAGE, C_THIEF, C_SHAMAN};
 enum RACE {R_HUMAN, R_ELF, R_DWARF, R_HOBBIT, R_ORC};
 class Postac
 {
-private:
+protected:
 	int playerX = 20, playerY = 20; //Ustawia gracza na koordynatach 11,11 - GLOWNE MIASTO.
 
 	Map mapka[21][21]; //Generuje mape 21/21 pól.
@@ -19,6 +19,9 @@ private:
 	int in; //INTELIGENCJA
 	int lu; //SZCZESCIE
 
+	int actualHp; //Aktualne ¿cyie
+	int actualMana; //Aktualna mana
+
 	int hp = 90 + st * 10; //¯ycie gracza. Bazowe 90 + 10pkt za ka¿dy punkt StAMINY.
 	int mana = 60 + in * 12; //Mana gracza. Bazowo 60 + 12pkt za ka¿dy pkt inteligencji.
 	int attackValueMin = 1; //Minimalna wartoœæ ataku - 1, zwiêkszana dziêki broni / itemkom. SILA NIE MA NA TO WPLYWU
@@ -30,11 +33,13 @@ private:
 	Item eq[15]; //MIEJSCA W EQ
 	int hPotions = 0; // Health potions
 	int mPotions = 0; //Mana Potions
-	int lvl=0; //AKTUALNY LVL
-	int lvlmax; //MAX LVL POSTACI
+	int lvl=1; //AKTUALNY LVL
+	int lvlmax; //MAX LVL POSTACI, ale idk czy dodawaæ.
 	int xp=0; //Aktualny XP
+	int neededXP = 10 * lvl * sqrt(lvl);
 	int freeAbilityPoints; //WOLNE PUNKTY UMIEJETNOSCI
 
+	bool dead = false; //Czy umar³eœ? :D
 public:
 	Postac();
 
@@ -54,9 +59,11 @@ public:
 	string getName();
 	void buildCharacter(); //Budowanie gracza, tj. ustawienie pierwszych wartosci umiejetnosci dla postaci.
 	void showEq(int); //Shows item in [i] place in EQ
+	void addXp(int xp); //adds XP to character, chcecks for lvlup
 	void initializeEq();//Sets all EQ spaces as free
 	void addItem(Item item);
 	int getXp();
+	int getNextXp();
 	int getLvl();
 
 	int getStr();
@@ -70,6 +77,10 @@ public:
 	int getMPotions();
 
 	int getHP();
+
+	int getActualHP();
+
+	int getActualMana();
 
 	int getMinAttack();
 

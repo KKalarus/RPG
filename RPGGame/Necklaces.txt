@@ -1,0 +1,10 @@
+Naszyjnik mocy
+Naszyjnik zniszczenia
+Naszyjnik zla
+Naszyjnik dobra
+Naszyjnik ognia
+Naszyjnik wody
+Naszyjnik Orkow
+Naszyjnik magii
+Pradawny wisior
+Dziwny wisiorek

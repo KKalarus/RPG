@@ -12,6 +12,8 @@ void Mage::atak()
 
 void Mage::lvlup()
 {
+	this->lvl++;
+	this->in += 2;
 }
 
 

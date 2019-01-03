@@ -57,11 +57,13 @@ void Map::setPlace() {
 		this->enemy = false;
 	}
 
-	if(chestr==1) this->chest = true;
+	if(chestr==1&&this->place!=MT_CITY) this->chest = true;
 	else this->chest = false;
 
 }
-
+void Map::openChest() {
+	this->chest = false;
+}
 int Map::getPlace() {
 	return static_cast<int>(this->place);
 }

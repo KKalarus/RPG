@@ -185,6 +185,16 @@
     <ClCompile Include="Thief.cpp" />
     <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Armors.txt" />
+    <Text Include="Bows.txt" />
+    <Text Include="Daggers.txt" />
+    <Text Include="Necklaces.txt" />
+    <Text Include="OrcStuff.txt" />
+    <Text Include="Rings.txt" />
+    <Text Include="Swords.txt" />
+    <Text Include="Wands.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

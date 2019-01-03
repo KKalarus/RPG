@@ -96,4 +96,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Swords.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Bows.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Daggers.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Wands.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="OrcStuff.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Armors.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Rings.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Necklaces.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

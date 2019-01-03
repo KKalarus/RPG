@@ -10,7 +10,7 @@ Postac::Postac()
 	}
 	mapka[10][10].setCity();
 }
-void Postac::showmap(Map*mapPointer) {
+void Postac::showmap(Map*mapPointer) { //Just for debugging, shows generated map 
 	for (int i = 0; i < 21; i++) {
 		for (int j = 0; j < 21; j++) {
 			cout << mapka[i][j].getPlace() << " ";
@@ -642,11 +642,18 @@ void Postac::buildCharacter()
 			}
 		}
 	} while (true);
+
 	this->str = str;
 	this->dex = dex;
 	this->st = st;
 	this->in = in;
 	this->lu = lu;
+
+	this->attackValueMax = 3 + str;
+	this->hp = 90 + st * 10;
+	this->mana = 60 + in * 12;
+	this->actualHp = hp;
+	this->actualMana = mana;
 }
 void Postac::initializeEq() 
 {
@@ -664,13 +671,20 @@ void Postac::addItem(Item item)
 		}
 	}
 	if (space != -1) {
-		eq[space] = Item(T_ARMOR, 0, "Zbroja paladyna", 1, 1, 1, 1, 1, 0, 99, 0, 99, 0, 10, 24,Q_LEGENDARY);
 		eq[space] = item;
 	}
 }
 void Postac::showEq(int i) 
 {
 		eq[i].showItem(static_cast<int>(this->klasa));
+}
+void Postac::addXp(int xp) {
+	this->xp += xp;
+	while(this->xp >= this->neededXP) {
+		this->xp -= this->neededXP;
+		this->neededXP = 10 * lvl * sqrt(lvl);
+		lvlup();
+	}
 }
 bool Postac::visit()
 {
@@ -764,6 +778,7 @@ bool Postac::visit()
 		else {
 			if (mapka[playerY][playerX].isChest()) openChest();
 		}
+		addXp(10 + lvl);
 		return true;
 	}
 }
@@ -772,8 +787,58 @@ void Postac::fight() {
 	LIME; cout << "WALKA!"; WHITE;
 }
 void Postac::openChest() {
+	char k;
+	int wybor = 0;
 	CLS;
-
+	for (int i = 15; i <= 21; i++) {
+		for (int j = 59; j <= 89; j++) {
+			gotoxy(j, i);
+			if (i == 15) {
+				GOLDBG; cout << " ";
+			}
+			else if (i == 21) {
+				GOLDBG; cout << " ";
+			}
+			else {
+				if (j == 59) {
+					GOLDBG; cout << " ";
+				}
+				else if (j == 89) {
+					GOLDBG; cout << " ";
+				}
+				else {
+					BLACKBG; cout << " ";
+				}
+			}
+		}
+	}
+	gotoxy(60, 16);
+	LIME; cout << "ZNALAZ£EŒ SKRZYNIE!"; WHITE;
+	gotoxy(60, 17);
+	cout << "Chcesz j¹ otworzyæ?";
+	gotoxy(60, 18);
+	YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
+	do {
+		k = _getch();
+		if (k == DIR_RIGHT)wybor++;
+		else if (k == DIR_LEFT) wybor--;
+		if (wybor > 1) wybor = 1;
+		else if (wybor < 0) wybor = 0;
+		if (wybor == 0) {
+			gotoxy(60, 18);
+			YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
+		}
+		else {
+			gotoxy(60, 18);
+			cout << "NIE"; cout << "/"; 	YELLOW; cout << "TAK"; WHITE;
+		}
+	} while (k != ENTER);
+	if (wybor != 0) {
+		mapka[playerY][playerX].openChest();
+		Item x, item;
+		item = x.generateRandomItem(this->lvl);
+		addItem(item);
+	}
 }
 void Postac::equipItem(int item) {
 	if (eq[item].isItemEquiped()) {
@@ -783,6 +848,9 @@ void Postac::equipItem(int item) {
 		this->in -= eq[item].getGIn();
 		this->st -= eq[item].getGSt();
 		this->lu -= eq[item].getGLu();
+		this->hp -= eq[item].getGSt() * 10; //¯ycie gracza. Bazowe 90 + 10pkt za ka¿dy punkt StAMINY.
+		this->mana -= eq[item].getGIn() * 12; //Mana gracza. Bazowo 60 + 12pkt za ka¿dy pkt inteligencji.
+		this->attackValueMax -= eq[item].getGStr();
 		this->attackValueMax -= eq[item].getAttStr();
 		this->attackValueMin -= eq[item].getAttStr();
 		this->armor -= eq[item].getArmor();
@@ -796,7 +864,8 @@ void Postac::equipItem(int item) {
 				break;
 			}
 		}
-		if (!sameTypeEquiped&&this->str >= eq[item].getNStr() && this->dex >= eq[item].getNDex() && this->in >= eq[item].getNIn() && this->st >= eq[item].getNSt() && this->lu >= eq[item].getNLu() && static_cast<int>(this->klasa) == eq[item].getClass()) {
+		if (!sameTypeEquiped&&this->str >= eq[item].getNStr() && this->dex >= eq[item].getNDex() && this->in >= eq[item].getNIn() && 
+			this->st >= eq[item].getNSt() && this->lu >= eq[item].getNLu() && (static_cast<int>(this->klasa) == eq[item].getClass() || eq[item].getClass()==5)) {
 
 			eq[item].equip();
 
@@ -805,6 +874,9 @@ void Postac::equipItem(int item) {
 			this->in += eq[item].getGIn();
 			this->st += eq[item].getGSt();
 			this->lu += eq[item].getGLu();
+			this->hp += eq[item].getGSt() * 10; //¯ycie gracza. Bazowe 90 + 10pkt za ka¿dy punkt StAMINY.
+			this->mana += eq[item].getGIn() * 12; //Mana gracza. Bazowo 60 + 12pkt za ka¿dy pkt inteligencji.
+			this->attackValueMax += eq[item].getGStr();
 			this->attackValueMax += eq[item].getAttStr();
 			this->attackValueMin += eq[item].getAttStr();
 			this->armor += eq[item].getArmor();
@@ -842,6 +914,12 @@ void Postac::equipItem(int item) {
 	{
 		return this->xp;
 	}
+
+	int Postac::getNextXp()
+	{
+		return this->neededXP;
+	}
+
 	int Postac::getLvl()
 	{
 		return this->lvl;
@@ -882,6 +960,12 @@ void Postac::equipItem(int item) {
 	int Postac::getHP()
 	{
 		return this->hp;
+	}
+	int Postac::getActualHP() {
+		return this->actualHp;
+	}
+	int Postac::getActualMana() {
+		return this->actualMana;
 	}
 	int Postac::getMinAttack()
 	{

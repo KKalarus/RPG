@@ -12,6 +12,8 @@ void Warrior::atak()
 
 void Warrior::lvlup()
 {
+	this->lvl++;
+	this->str += 2;
 }
 
 

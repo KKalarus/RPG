@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Item.h"
 #include <random>
+#include <fstream>
 
 Item::Item()
 {
@@ -25,6 +26,7 @@ Item::Item(TYPE typ) {
 		Item(T_FREESPACE);
 	}
 }
+
 Item::Item(TYPE typ, int forWho, string name, int needStr, int needDex, int needIn, int needSt, int needLu, int giveStr, int giveDex, int giveIn, int giveSt, int giveLu, int attStr, int armor, QUALITY quality)
 {
 	this->typ = typ;
@@ -53,6 +55,155 @@ TYPE Item::getType()
 	return this->typ;
 }
 
+Item Item::generateRandomItem(int playerLevel) {
+
+
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> levelRand(playerLevel,playerLevel+4);
+	std::uniform_int_distribution<std::mt19937::result_type> typeRand(0,3);
+	std::uniform_int_distribution<std::mt19937::result_type> qualityRand(1,20);
+	std::uniform_int_distribution<std::mt19937::result_type> classRand(0,4);
+
+	int level = levelRand(rng) - 2; //Losowy level itemka (+-2 od gracza)
+	if (level < 1) {
+		level = 1;
+	}	//Gdy level mniejszy niz 1, to 1
+
+
+
+	int x = 1 + level * 4 / static_cast<int>(quality + 1) / 3;
+	if (x < level) x = level;
+
+	TYPE type = static_cast<TYPE>(typeRand(rng)); // Losowy typ dropionego przedmiotu
+	QUALITY quality;
+	int qualityTemp = qualityRand(rng); //Losowo generuje jakoœæ przedmiotu. Szansa na œmieæ 20%, na common 65%, na rare 10%, na legendaty 5%!
+	if (qualityTemp > 4) {
+		if (qualityTemp >= 18) {
+			if (qualityTemp == 20) quality = Q_LEGENDARY;
+			else quality = Q_RARE;
+		}
+		else quality = Q_COMMON;
+	}
+	else quality = Q_TRASH;
+
+	int q; //modifier dla bi¿uterii
+	if (quality == Q_LEGENDARY) q = 3;
+	if (quality == Q_RARE) q = 2;
+	if (quality == Q_COMMON) q = 1;
+	if (quality == Q_TRASH) q = 0;
+
+	int forWho = classRand(rng);
+
+	std::uniform_int_distribution<std::mt19937::result_type> randPerkq(1, level + q * 10);
+	std::uniform_int_distribution<std::mt19937::result_type> randPerk(1, level + quality);
+	std::uniform_int_distribution<std::mt19937::result_type> armorRand(level, level + level * 4);
+	std::uniform_int_distribution<std::mt19937::result_type> attackRand(level, level + level * 4);
+	std::uniform_int_distribution<std::mt19937::result_type> baseNeedRand(level, 1 + level * 4 / static_cast<int>(quality + 1)); //Glowny wymagany perk dla danej klasy - [level itema;levelItema*4/jakosc]
+	std::uniform_int_distribution<std::mt19937::result_type> secondaryNeedRand(level, x); //Drugi perk dodatkowo
+
+
+
+	int attStr = 0;
+	int armor = 0;
+
+	int needStr = 0;
+	int needDex = 0;
+	int needIn = 0;
+	int needSt = 0;
+	int needLu = 0;
+
+	int givesStr = 0;
+	int givesDex = 0;
+	int givesIn = 0;
+	int givesSt = 0;
+	int givesLu = 0;
+
+	string name = "name";
+
+	ifstream swords("Swords.txt");
+	ifstream bows("Bows.txt");
+	ifstream daggers("Daggers.txt");
+	ifstream wands("Wands.txt");
+	ifstream orcStuff("OrcStuff.txt");
+	ifstream armors("Armors.txt");
+	ifstream rings("Rings.txt");
+	ifstream necklaces("Necklaces.txt");
+	
+
+
+
+
+	switch (static_cast<int>(type)) {
+	case 0: //Generates weapon
+		attStr = attackRand(rng) / static_cast<int>(quality + 1); // Sila ataku to WYGENEROWANY ATAK podzielony przez jakoœæ + 1, czyli legendarka ma normalny, a smiec /4
+		switch (forWho) {
+		case 0:
+			needStr = baseNeedRand(rng);
+			needSt = secondaryNeedRand(rng);
+			needIn = randPerk(rng);
+			needDex = randPerk(rng);
+			needLu = randPerk(rng);
+			break;
+		case 1:
+			needDex = baseNeedRand(rng);
+			needLu = secondaryNeedRand(rng);
+			needIn = randPerk(rng);
+			needStr = randPerk(rng);
+			needLu = randPerk(rng);
+			break;
+		case 2:
+			needIn = baseNeedRand(rng);
+			needLu = secondaryNeedRand(rng);
+			needSt = randPerk(rng);
+			needStr = randPerk(rng);
+			needDex = randPerk(rng);
+			break;
+		case 3:
+			needSt = baseNeedRand(rng);
+			needDex = secondaryNeedRand(rng);
+			needIn = randPerk(rng);
+			needStr = randPerk(rng);
+			needLu = randPerk(rng);
+			break;
+		case 4:
+			needLu = baseNeedRand(rng);
+			needStr = secondaryNeedRand(rng);
+			needIn = randPerk(rng);
+			needDex = randPerk(rng);
+			needLu = randPerk(rng);
+			break;
+		}
+		break;
+	case 1: //Random armor
+		forWho = 5;
+		armor = armorRand(rng) / static_cast<int>(quality+1);
+		needIn = randPerk(rng) / static_cast<int>(quality + 1);
+		needDex = randPerk(rng) / static_cast<int>(quality + 1);
+		needLu = randPerk(rng) / static_cast<int>(quality + 1);
+		needSt = randPerk(rng) / static_cast<int>(quality + 1);
+		needStr = randPerk(rng) / static_cast<int>(quality + 1);
+		break;
+	case 2: //random Necklace
+		forWho = 5;
+		givesIn = randPerkq(rng);
+		givesDex = randPerkq(rng);
+		givesLu = randPerkq(rng);
+		givesSt = randPerkq(rng);
+		givesStr = randPerkq(rng);
+		break;
+	case 3: //random Ring
+		forWho = 5;
+		givesIn = randPerkq(rng);
+		givesDex = randPerkq(rng);
+		givesLu = randPerkq(rng);
+		givesSt = randPerkq(rng);
+		givesStr = randPerkq(rng);
+		break;
+	}
+	return Item(type,forWho,name,needStr,needDex,needIn,needSt,needLu,givesStr,givesDex,givesIn,givesSt,givesLu,attStr,armor,quality);
+}
+
 void Item::showItem(int playerClass){
 	BLUE; cout << "Typ przedmiotu : "; WHITE;
 	switch (static_cast<int>(this->typ)) {
@@ -76,17 +227,39 @@ void Item::showItem(int playerClass){
 	if ((static_cast<int>(this->typ)) != 4) {
 		gotoxy(2, 6);
 		BLUE; cout << "Nazwa: "; WHITE; cout << this->itemName << endl;
-		gotoxy(2, 7);
-		BLUE; cout << "Potrzebna sila : "; WHITE; cout << this->needStr << endl;
-		gotoxy(2, 8);
-		BLUE; cout << "Potrzebna zwinnosc : "; WHITE; cout << this->needDex << endl;
-		gotoxy(2, 9);
-		BLUE; cout << "Potrzebna inteligencja: "; WHITE; cout << this->needIn << endl;
-		gotoxy(2, 10);
-		BLUE; cout << "Potrzebna wytrzyma³oœæ: "; WHITE; cout << this->needSt << endl;
-		gotoxy(2, 11);
-		BLUE; cout << "Potrzebne szczêœcie: "; WHITE; cout << this->needLu << endl;
-		gotoxy(2, 12);
+		if (typ == 0 || typ == 1) {
+			gotoxy(2, 7);
+			BLUE; cout << "Potrzebna sila : "; WHITE; cout << this->needStr << endl;
+			gotoxy(2, 8);
+			BLUE; cout << "Potrzebna zwinnosc : "; WHITE; cout << this->needDex << endl;
+			gotoxy(2, 9);
+			BLUE; cout << "Potrzebna inteligencja: "; WHITE; cout << this->needIn << endl;
+			gotoxy(2, 10);
+			BLUE; cout << "Potrzebna wytrzyma³oœæ: "; WHITE; cout << this->needSt << endl;
+			gotoxy(2, 11);
+			BLUE; cout << "Potrzebne szczêœcie: "; WHITE; cout << this->needLu << endl;
+			if (typ == 0) {
+				gotoxy(2, 12);
+				BLUE; cout << "Wartoœæ ataku: "; WHITE; cout << this->attStr << endl;
+			}
+			else {
+				gotoxy(2, 12);
+				BLUE; cout << "Wartoœæ obrony: "; WHITE; cout << this->armor << endl;
+			}
+		}
+		else {
+			gotoxy(2, 7);
+			BLUE; cout << "Daje sily : "; WHITE; cout << this->giveStr << endl;
+			gotoxy(2, 8);
+			BLUE; cout << "Daje zwinnoœci : "; WHITE; cout << this->giveDex << endl;
+			gotoxy(2, 9);
+			BLUE; cout << "Daje inteligencji: "; WHITE; cout << this->giveIn << endl;
+			gotoxy(2, 10);
+			BLUE; cout << "Daje wytrzyma³oœci: "; WHITE; cout << this->giveSt << endl;
+			gotoxy(2, 11);
+			BLUE; cout << "Daje szczêœcia: "; WHITE; cout << this->giveLu << endl;
+		}
+		gotoxy(2, 13);
 		BLUE; cout << "Jakoœæ przedmiotu: ";
 		switch (this->quality) {
 		case 0:
@@ -102,7 +275,7 @@ void Item::showItem(int playerClass){
 			GREY; cout << "ŒMIEÆ" << endl;
 			break;
 		}
-		gotoxy(2, 13);
+		gotoxy(2, 14);
 		BLUE; cout << "Wymagana klasa: "; WHITE;
 		switch (this->forWho) {
 		case 0:
@@ -144,6 +317,9 @@ void Item::showItem(int playerClass){
 			else {
 				RED; cout << "SZAMAN"; WHITE;
 			}
+			break;
+		case 5:
+			WHITE; cout << "KA¯DY";
 			break;
 		}
 		gotoxy(2, 15);

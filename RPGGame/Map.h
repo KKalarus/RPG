@@ -11,6 +11,7 @@ public:
 	Map();
 	void setCity();
 	void setPlace();
+	void openChest();
 	int getPlace();
 	bool isChest();
 	bool isEnemy();

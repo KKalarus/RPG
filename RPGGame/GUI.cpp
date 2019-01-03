@@ -145,7 +145,7 @@ void GUI::drawGUI(Postac *character)
 			gotoxy(63, 32);
 			BLUE; cout << "HP: "; WHITE;
 			gotoxy(78, 32);
-			cout << character->getHP();
+			RED; cout << character->getActualHP; WHITE; cout<< "/" << character->getHP;
 				gotoxy(91, 32);
 				BLUE; cout << "X COORD: "; WHITE;
 				gotoxy(106, 32);
@@ -161,7 +161,7 @@ void GUI::drawGUI(Postac *character)
 			gotoxy(63, 33);
 			BLUE; cout << "MANA: "; WHITE;
 			gotoxy(78, 33);
-			cout << character->getMana();
+			cout << character->getActualMana << "/" << character->getMana();
 				gotoxy(91, 33);
 				BLUE; cout << "Y COORD: "; WHITE;
 				gotoxy(106, 33);
@@ -169,7 +169,7 @@ void GUI::drawGUI(Postac *character)
 	gotoxy(14, 34);
 	BLUE; cout << "XP: "; WHITE;
 	gotoxy(22, 34);
-	cout << character->getXp(); cout << "/" << (character->getLvl() + 1) * 100;
+	cout << character->getXp(); cout << "/" << character->getNextXp();
 		gotoxy(35, 34);
 		BLUE; cout << "SZCZÊŒCIE: "; WHITE;
 		gotoxy(50, 34);
@@ -181,7 +181,23 @@ void GUI::drawGUI(Postac *character)
 				gotoxy(91, 34);
 				BLUE; cout << "Miejsce: "; WHITE;
 				gotoxy(106, 34);
-				cout << static_cast<MAPTYPE>(character->getActualPlace());
+				switch (character->getActualPlace()) {
+				case MT_FOREST:
+					cout << "LAS";
+					break;
+				case MT_MOUNTAINS:
+					cout << "GÓRY";
+					break;
+				case MT_CAVE:
+					cout << "JASKINIA";
+					break;
+				case MT_HOUSE:
+					cout << "DOMEK";
+					break;
+				case MT_CITY:
+					cout << "MIASTO";
+					break;
+				}
 }
 void GUI::CharOptions(Postac *character) {
 	char k;
@@ -224,7 +240,7 @@ void GUI::CharOptions(Postac *character) {
 }
 void GUI::updateStats(Postac *character) {
 	clearStatsBox();
-	gotoxy(14, 30);
+gotoxy(14, 30);
 	BLUE; cout << "IMIE: "; WHITE;
 	gotoxy(22, 30);
 	cout << character->getName();
@@ -236,6 +252,10 @@ void GUI::updateStats(Postac *character) {
 			BLUE; cout << "Atak: "; WHITE;
 			gotoxy(78, 30);
 			cout << character->getMinAttack() << "-" << character->getMaxAttack();
+				gotoxy(91, 30);
+				BLUE; cout << "HP Potions: "; WHITE;
+				gotoxy(106, 30);
+				cout << character->getHPotions();
 	gotoxy(14, 31);
 	BLUE; cout << "KLASA: "; WHITE;
 	gotoxy(22, 31);
@@ -245,9 +265,13 @@ void GUI::updateStats(Postac *character) {
 		gotoxy(50, 31);
 		cout << character->getDex();
 			gotoxy(63, 31);
-			BLUE; cout << "Armor: "; WHITE;
+			BLUE; cout << "ARMOR: "; WHITE;
 			gotoxy(78, 31);
 			cout << character->getArmor();
+				gotoxy(91, 31);
+				BLUE; cout << "CEBULIONY: "; WHITE;
+				gotoxy(106, 31);
+				cout << character->getMoney();
 	gotoxy(14, 32);
 	BLUE; cout << "RASA: "; WHITE; 
 	gotoxy(22, 32);
@@ -259,7 +283,11 @@ void GUI::updateStats(Postac *character) {
 			gotoxy(63, 32);
 			BLUE; cout << "HP: "; WHITE;
 			gotoxy(78, 32);
-			cout << character->getHP();
+			RED; cout << character->getActualHP; WHITE; cout<< "/" << character->getHP;
+				gotoxy(91, 32);
+				BLUE; cout << "X COORD: "; WHITE;
+				gotoxy(106, 32);
+				cout << character->getPlayerX();
 	gotoxy(14, 33);
 	BLUE; cout << "LVL: "; WHITE; 
 	gotoxy(22, 33);
@@ -269,13 +297,17 @@ void GUI::updateStats(Postac *character) {
 		gotoxy(50, 33);
 		cout << character->getIn();
 			gotoxy(63, 33);
-			BLUE; cout << "HP Potions: "; WHITE;
+			BLUE; cout << "MANA: "; WHITE;
 			gotoxy(78, 33);
-			cout << character->getHPotions();
+			cout << character->getActualMana << "/" << character->getMana();
+				gotoxy(91, 33);
+				BLUE; cout << "Y COORD: "; WHITE;
+				gotoxy(106, 33);
+				cout << character->getPlayerY();
 	gotoxy(14, 34);
 	BLUE; cout << "XP: "; WHITE;
 	gotoxy(22, 34);
-	cout << character->getXp(); cout << "/" << (character->getLvl() + 1) * 100;
+	cout << character->getXp(); cout << "/" << character->getNextXp();
 		gotoxy(35, 34);
 		BLUE; cout << "SZCZÊŒCIE: "; WHITE;
 		gotoxy(50, 34);
@@ -284,13 +316,30 @@ void GUI::updateStats(Postac *character) {
 			BLUE; cout << "MANA Potions: "; WHITE;
 			gotoxy(78, 34);
 			cout << character->getHPotions();
+				gotoxy(91, 34);
+				BLUE; cout << "Miejsce: "; WHITE;
+				gotoxy(106, 34);
+				switch (character->getActualPlace()) {
+				case MT_FOREST:
+					cout << "LAS";
+					break;
+				case MT_MOUNTAINS:
+					cout << "GÓRY";
+					break;
+				case MT_CAVE:
+					cout << "JASKINIA";
+					break;
+				case MT_HOUSE:
+					cout << "DOMEK";
+					break;
+				case MT_CITY:
+					cout << "MIASTO";
+					break;
+				}
 }
 void GUI::drawEQ(Postac *character) {
 	int i = 0;
 	char k;
-	//character->addItem();
-	//character->addItem();
-	//character->addItem();
 	gotoxy(2, 5);
 	character->showEq(i);
 	do {

@@ -13,6 +13,8 @@ void Archer::atak()
 
 void Archer::lvlup()
 {
+	this->lvl++;
+	this->dex += 2;
 }
 
 

@@ -33,6 +33,7 @@ public:
 	Item(TYPE);
 	Item(TYPE,int,string,int,int,int,int,int,int,int,int,int,int,int,int,QUALITY); //Typ przedmiotu, dla kogo, nazwa, wymagana: sila, zrecznosc, inteligencja, wytrzymalosc, szczescie DAWANE: sila, zrecznosc, inta, wytrzymalosc, szczescie, atak, armor, jakosc
 	TYPE getType();
+	Item generateRandomItem(int); //Generates random item based on player level.
 	void showItem(int);
 
 	int getGStr();
