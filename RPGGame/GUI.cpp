@@ -3,6 +3,7 @@
 #include <string>
 #include "Dialogi.h"
 
+
 void outline() {
 	for (int i = 1; i <= 35; i++) { //This loop generates basic outline of GUI in golden color.
 		for (int j = 1; j <= 150; j++) {
@@ -145,7 +146,7 @@ void GUI::drawGUI(Postac *character)
 			gotoxy(63, 32);
 			BLUE; cout << "HP: "; WHITE;
 			gotoxy(78, 32);
-			RED; cout << character->getActualHP; WHITE; cout<< "/" << character->getHP;
+			RED; cout << character->getActualHP(); WHITE; cout<< "/" << character->getHP();
 				gotoxy(91, 32);
 				BLUE; cout << "X COORD: "; WHITE;
 				gotoxy(106, 32);
@@ -161,7 +162,7 @@ void GUI::drawGUI(Postac *character)
 			gotoxy(63, 33);
 			BLUE; cout << "MANA: "; WHITE;
 			gotoxy(78, 33);
-			cout << character->getActualMana << "/" << character->getMana();
+			cout << character->getActualMana() << "/" << character->getMana();
 				gotoxy(91, 33);
 				BLUE; cout << "Y COORD: "; WHITE;
 				gotoxy(106, 33);
@@ -283,7 +284,7 @@ gotoxy(14, 30);
 			gotoxy(63, 32);
 			BLUE; cout << "HP: "; WHITE;
 			gotoxy(78, 32);
-			RED; cout << character->getActualHP; WHITE; cout<< "/" << character->getHP;
+			RED; cout << character->getActualHP(); WHITE; cout<< "/" << character->getHP();
 				gotoxy(91, 32);
 				BLUE; cout << "X COORD: "; WHITE;
 				gotoxy(106, 32);
@@ -299,7 +300,7 @@ gotoxy(14, 30);
 			gotoxy(63, 33);
 			BLUE; cout << "MANA: "; WHITE;
 			gotoxy(78, 33);
-			cout << character->getActualMana << "/" << character->getMana();
+			cout << character->getActualMana() << "/" << character->getMana();
 				gotoxy(91, 33);
 				BLUE; cout << "Y COORD: "; WHITE;
 				gotoxy(106, 33);

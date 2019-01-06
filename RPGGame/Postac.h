@@ -1,6 +1,7 @@
 #pragma once
 #include "Item.h"
 #include "Map.h"
+#include "Enemy.h"
 
 enum CLASS {C_WARRIOR, C_ARCHER, C_MAGE, C_THIEF, C_SHAMAN};
 enum RACE {R_HUMAN, R_ELF, R_DWARF, R_HOBBIT, R_ORC};

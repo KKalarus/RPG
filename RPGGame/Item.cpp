@@ -186,19 +186,19 @@ Item Item::generateRandomItem(int playerLevel) {
 		break;
 	case 2: //random Necklace
 		forWho = 5;
-		givesIn = randPerkq(rng);
-		givesDex = randPerkq(rng);
-		givesLu = randPerkq(rng);
-		givesSt = randPerkq(rng);
-		givesStr = randPerkq(rng);
+		givesIn = randPerkq(rng) / static_cast<int>(quality + 1)+level/5;
+		givesDex = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
+		givesLu = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
+		givesSt = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
+		givesStr = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
 		break;
 	case 3: //random Ring
 		forWho = 5;
-		givesIn = randPerkq(rng);
-		givesDex = randPerkq(rng);
-		givesLu = randPerkq(rng);
-		givesSt = randPerkq(rng);
-		givesStr = randPerkq(rng);
+		givesIn = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
+		givesDex = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
+		givesLu = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
+		givesSt = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
+		givesStr = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
 		break;
 	}
 	return Item(type,forWho,name,needStr,needDex,needIn,needSt,needLu,givesStr,givesDex,givesIn,givesSt,givesLu,attStr,armor,quality);
