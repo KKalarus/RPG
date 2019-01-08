@@ -3,40 +3,6 @@
 #include <string>
 #include "Dialogi.h"
 
-
-void outline() {
-	for (int i = 1; i <= 35; i++) { //This loop generates basic outline of GUI in golden color.
-		for (int j = 1; j <= 150; j++) {
-			if (i == 1 || i==29 || i == 35) {
-				GOLDBG;
-				cout << " ";
-				BLACKBG;
-			}
-			else if ((i > 1 && i < 35) && (j == 1 || j == 150) || (i > 29 && i < 35) && (j == 150 || j == 12) || ((i > 1 && i < 29) && (j == 42))){
-				gotoxy(j, i);
-				GOLDBG;
-				cout << " ";
-				BLACKBG;
-			}
-		}
-	}
-}
-void clearTopLeftBox() {
-		for (int i = 2; i < 29; i++) {
-			for (int j = 2; j < 42; j++) {
-				gotoxy(j, i);
-				BLACKBG; cout << " ";
-			}
-		}
-}
-void clearStatsBox() {
-	for (int i = 30; i < 35; i++) {
-		for (int j = 13; j < 150; j++) {
-			gotoxy(j, i);
-			BLACKBG; cout << " ";
-		}
-	}
-}
 GUI::GUI()
 {
 }

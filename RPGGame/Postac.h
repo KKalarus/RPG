@@ -91,7 +91,13 @@ public:
 
 	bool visit();
 
-	void fight(); //Fight with enemy :D
+	bool runAway();
+
+	int dealDamage(); //Gets amount of DMG to deal to Enemy
+
+	void walka(Enemy); //Actual fight
+
+	void fight(Enemy); //Fight GUI
 
 	void openChest(); // Opens chest, adds item to inventory! :D
 

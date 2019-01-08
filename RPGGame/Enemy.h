@@ -11,6 +11,7 @@ private:
 	int runAwayChance;
 	int armor;
 	bool dropsItem;
+	bool isdead = false;
 	LOOK look;
 public:
 	Enemy();
@@ -20,6 +21,10 @@ public:
 	bool runAway();
 	bool dodge();
 	bool tryToRun();
+	bool checkDeath();
+	bool getDamage(int);
+	LOOK getLook();
+	bool isDead();
 	~Enemy();
 };
 

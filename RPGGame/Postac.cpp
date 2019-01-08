@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Postac.h"
 
+Enemy dummy;
+
 Postac::Postac()
 {
 	for (int i = 0; i < 21; i++) {
@@ -772,7 +774,7 @@ bool Postac::visit()
 		CLS;
 		mapka[playerY][playerX].visitPlace();
 		if (mapka[playerY][playerX].isEnemy()) {
-			fight();
+			fight(dummy.generateRandomEnemy(this->lvl));
 			if (mapka[playerY][playerX].isChest()) openChest();
 		}
 		else {
@@ -782,9 +784,86 @@ bool Postac::visit()
 		return true;
 	}
 }
-void Postac::fight() {
-	//ADD FIGHT HERE;
-	LIME; cout << "WALKA!"; WHITE;
+void Postac::walka(Enemy przeciwnik) {
+	int y = 3;
+	int x = 44;
+	bool fight = true;
+	bool playerRanAway = false;
+	char k;
+	clearFightBox();
+	gotoxy(44, 28);
+	WHITE; cout << "WCISNIJ <"; YELLOW; cout << "ENTER"; WHITE; cout << "> ABY ZAATAKOWAÆ		WCISNIJ <"; YELLOW; cout << "R"; WHITE; cout << "> BY UCIEC";
+	do {
+		if (przeciwnik.isDead()) fight = false;
+		if (dead) fight = false;
+		k = _getch();
+		switch (k) {
+		case ENTER:
+			
+			break;
+		case 'r':
+			if (runAway()) {
+				fight = false;
+				playerRanAway = true;
+			}
+		}
+	} while (fight == true);
+}
+
+bool Postac::runAway() {
+	int chance = chanceR();
+	if (chance <= this->st*0.5) return true;
+	else return false;
+}
+
+int Postac::dealDamage()
+{
+	return 0;
+}
+
+void Postac::fight(Enemy przeciwnik) {
+		char k;
+		int wybor = 0;
+		gotoxy(44, 3);
+		RED; cout << "NATRAFI£EŒ NA Z£EGO: ";
+		switch (static_cast<int>(przeciwnik.getLook())) {
+		case 0:
+			cout << "ORKA";
+			break;
+		case 1:
+			cout << "SZKIELETA";
+			break;
+		case 2:
+			cout << "£OTRZYKA";
+			break;
+		case 3:
+			cout << "CIEMNEGO ELFA";
+			break;
+		}
+		cout << "!";
+		gotoxy(44, 3);
+		WHITE; cout << "CO ROBISZ? WALCZYSZ, CZY PRÓBUJESZ UCIEC, TCHÓRZU?!";
+		do {
+			k = _getch();
+			if (k == DIR_RIGHT)wybor++;
+			else if (k == DIR_LEFT) wybor--;
+			if (wybor > 1) wybor = 1;
+			else if (wybor < 0) wybor = 0;
+			if (wybor == 0) {
+				gotoxy(44, 4);
+				YELLOW; cout << "UCIEKAM"; WHITE; cout << "/"; cout << "WALCZE";
+			}
+			else {
+				gotoxy(44, 4);
+				cout << "UCIEKAM"; cout << "/"; 	YELLOW; cout << "WALCZE"; WHITE;
+			}
+		} while (k != ENTER);
+		switch (wybor) {
+		case 0:
+			break;
+		case 1:
+			walka(przeciwnik);
+		}
 }
 void Postac::openChest() {
 	char k;

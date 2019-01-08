@@ -3,13 +3,6 @@
 #include "Item.h"
 #include <random>
 
-int chanceR() {
-	std::mt19937 rng;
-	rng.seed(std::random_device()());
-	std::uniform_int_distribution<std::mt19937::result_type> chanceR(1, 100);
-	return chanceR(rng);
-}
-
 Enemy::Enemy()
 {
 }
@@ -89,6 +82,38 @@ bool Enemy::tryToRun() {
 	if (chance <= toRun) return true;
 	else return false;
 }
+
+bool Enemy::checkDeath()
+{
+	if (this->actualHealth <= 0) {
+		this->isdead = true;
+		return true;
+	}
+	else return false;
+}
+
+bool Enemy::getDamage(int dmg)
+{
+	if (dodge()) return false;
+	else {
+		this->actualHealth -= dmg;
+		if (checkDeath()) {
+			//drop item
+		}
+		return true;
+	}
+}
+
+LOOK Enemy::getLook()
+{
+	return LOOK();
+}
+
+bool Enemy::isDead()
+{
+	return isdead;
+}
+
 Enemy::~Enemy()
 {
 }

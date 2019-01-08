@@ -95,7 +95,7 @@ Item Item::generateRandomItem(int playerLevel) {
 
 	int forWho = classRand(rng);
 
-	std::uniform_int_distribution<std::mt19937::result_type> randPerkq(1, level + q * 10);
+	std::uniform_int_distribution<std::mt19937::result_type> randPerkq(1, level + q*level/static_cast<int>(quality+1));
 	std::uniform_int_distribution<std::mt19937::result_type> randPerk(1, level + quality);
 	std::uniform_int_distribution<std::mt19937::result_type> armorRand(level, level + level * 4);
 	std::uniform_int_distribution<std::mt19937::result_type> attackRand(level, level + level * 4);
