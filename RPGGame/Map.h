@@ -6,6 +6,7 @@ private:
 	MAPTYPE place;
 	bool chest;
 	bool enemy;
+	bool wasEnemy;
 	bool visited = false;
 public:
 	Map();
@@ -15,6 +16,7 @@ public:
 	int getPlace();
 	bool isChest();
 	bool isEnemy();
+	void killEnemy();
 	void visitPlace();
 	~Map();
 };

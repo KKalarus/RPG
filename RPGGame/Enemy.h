@@ -5,7 +5,7 @@ class Enemy
 private:
 	int health;
 	int actualHealth;
-	int damage;
+	int damageMax;
 	int damageMin;
 	int dodgeChance;
 	int runAwayChance;
@@ -16,15 +16,18 @@ private:
 public:
 	Enemy();
 	Enemy(int, int, int, int, int, LOOK,bool); //Generates enemy - health,armor ,dmg,dodge,runAway, itemDrop
-	Enemy generateRandomEnemy(int);
-	int attack();
-	bool runAway();
-	bool dodge();
-	bool tryToRun();
-	bool checkDeath();
-	bool getDamage(int);
-	LOOK getLook();
-	bool isDead();
+	void generateRandomEnemy(int,int); //Makes random enemy
+	int attack(); // Attack player
+	bool runAway(); //Do we need to run?
+	bool dodge(); //Dodges!
+	bool tryToRun(); //We need to run. NOW
+	bool checkDeath(); //Is dead?
+	bool getDamage(int); //Ouch this hurt
+	bool runOrFight(); //Name is the key to this one
+	LOOK getLook(); //Gets enemy look, nothing serious
+	bool isDead(); //DELETE THIS
+	int getHP(); //Gets HP in THIS moment
+	int getMaxHP(); //MAX HP
 	~Enemy();
 };
 

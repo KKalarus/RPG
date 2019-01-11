@@ -95,6 +95,12 @@ public:
 
 	int dealDamage(); //Gets amount of DMG to deal to Enemy
 
+	void getDamage(int); //Gets damage
+
+	bool checkDeath(); //You lost??
+
+	bool visit2();
+
 	void walka(Enemy); //Actual fight
 
 	void fight(Enemy); //Fight GUI

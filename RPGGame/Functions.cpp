@@ -66,8 +66,9 @@ void clearStatsBox() {
 	}
 }
 void clearFightBox() {
-	for (int i = 2; i < 29; i++) {
-		for (int j = 42; j < 150; j++) {
+	for (int i = 2; i < 27; i++) {
+		for (int j = 43; j < 150; j++) {
+			gotoxy(j, i);
 			BLACKBG; cout << " ";
 		}
 	}

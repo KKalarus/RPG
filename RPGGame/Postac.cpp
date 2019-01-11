@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Postac.h"
-
+#include <random>
 Enemy dummy;
 
 Postac::Postac()
@@ -692,6 +692,80 @@ bool Postac::visit()
 {
 	char k;
 	int wybor = 0;
+	WHITE;
+	gotoxy(44, 2);
+	cout << "Natrafi³eœ na : ";
+	switch (mapka[playerY][playerX].getPlace()) {
+	case MT_FOREST:
+		BLUE; cout << "LAS"; WHITE;
+		gotoxy(44, 3);
+		cout << "Chcesz siê w niego zapuœciæ? ";
+		break;
+	case MT_MOUNTAINS:
+		BLUE; cout << "GORY"; WHITE;
+		gotoxy(44, 3);
+		cout << "Chcesz siê po nich przejœæ? ";
+		break;
+	case MT_HOUSE:
+		BLUE; cout << "DOM"; WHITE;
+		gotoxy(44, 3);
+		cout << "Chcesz do niego wejœæ?";
+		break;
+	case MT_CAVE:
+		BLUE; cout << "JASKINIE"; WHITE;
+		gotoxy(44, 3);
+		cout << "Chcesz j¹ zbadaæ?";
+		break;
+	case MT_CITY:
+		BLUE; cout << "MIASTO"; WHITE;
+		gotoxy(44, 3);
+		cout << "Chcesz je odwiedziæ?";
+		break;
+	default:
+		BLUE; cout << "DZIWNE...";
+		gotoxy(44, 3);
+		cout << "To nic z tego œwiata..?";
+		break;
+	}
+	gotoxy(44, 4);
+	YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
+	do {
+		k = _getch();
+		if (k == DIR_RIGHT)wybor++;
+		else if (k == DIR_LEFT) wybor--;
+		if (wybor > 1) wybor = 1;
+		else if (wybor < 0) wybor = 0;
+		if (wybor == 0) {
+			gotoxy(44, 4);
+			YELLOW; cout << "NIE"; WHITE; cout << "/"; cout << "TAK";
+		}
+		else {
+			gotoxy(44, 4);
+			cout << "NIE"; cout << "/"; 	YELLOW; cout << "TAK"; WHITE;
+		}
+	} while (k != ENTER);
+	if (wybor == 0) {
+		return false;
+	}
+	else {
+		mapka[playerY][playerX].visitPlace();
+		if (mapka[playerY][playerX].isEnemy()) {
+			dummy.generateRandomEnemy(this->lvl,this->attackValueMax);
+			fight(dummy);
+			if (mapka[playerY][playerX].isChest() && !mapka[playerY][playerX].isEnemy()) openChest();
+		}
+		else {
+			if (mapka[playerY][playerX].isChest()) openChest();
+		}
+		addXp(10 + lvl);
+		return true;
+	}
+}
+
+bool Postac::visit2()
+{
+	char k;
+	int wybor = 0;
 	CLS;
 	for (int i = 15; i <= 21; i++) {
 		for (int j = 59; j <= 89; j++) {
@@ -774,8 +848,9 @@ bool Postac::visit()
 		CLS;
 		mapka[playerY][playerX].visitPlace();
 		if (mapka[playerY][playerX].isEnemy()) {
-			fight(dummy.generateRandomEnemy(this->lvl));
-			if (mapka[playerY][playerX].isChest()) openChest();
+			dummy.generateRandomEnemy(this->lvl,this->attackValueMax);
+			fight(dummy);
+			if (mapka[playerY][playerX].isChest()&&!mapka[playerY][playerX].isEnemy()) openChest();
 		}
 		else {
 			if (mapka[playerY][playerX].isChest()) openChest();
@@ -785,7 +860,8 @@ bool Postac::visit()
 	}
 }
 void Postac::walka(Enemy przeciwnik) {
-	int y = 3;
+	int y = 4;
+	int ymax = 26;
 	int x = 44;
 	bool fight = true;
 	bool playerRanAway = false;
@@ -793,21 +869,121 @@ void Postac::walka(Enemy przeciwnik) {
 	clearFightBox();
 	gotoxy(44, 28);
 	WHITE; cout << "WCISNIJ <"; YELLOW; cout << "ENTER"; WHITE; cout << "> ABY ZAATAKOWAÆ		WCISNIJ <"; YELLOW; cout << "R"; WHITE; cout << "> BY UCIEC";
+	gotoxy(44, 27);
+	WHITE; cout << "WCISNIJ <"; RED; cout << "H"; WHITE; cout << "> ABY UZYC MIKSTURY ZYCIA		WCISNIJ <"; BLUE; cout << "M"; WHITE; cout << "> BY WYPIC MIKSTURE MANY";
+	gotoxy(44, 2);
+	RED; cout << "ENEMY HP: " << przeciwnik.getHP() << "/" << przeciwnik.getMaxHP();
 	do {
+#if debug==1
+		gotoxy(44, 2);
+		cout << "                                   ";
+		gotoxy(44, 2);
+		RED; cout << "ENEMY HP: " << przeciwnik.getHP() << "/" << przeciwnik.getMaxHP();
+#endif //debug
 		if (przeciwnik.isDead()) fight = false;
-		if (dead) fight = false;
-		k = _getch();
-		switch (k) {
-		case ENTER:
-			
-			break;
-		case 'r':
-			if (runAway()) {
-				fight = false;
-				playerRanAway = true;
+		if (dead == true) fight = false;
+		if (fight != false) {
+			do {
+				k = _getch();
+			} while (k != ENTER || k != 'r' || k != 'h' || k != 'm');
+			int dmg;
+			switch (k) {
+			case ENTER:
+				dmg = dealDamage();
+				przeciwnik.getDamage(dmg);
+#if debug==1
+				if (y == ymax) {
+					clearFightBox();
+					y = 4;
+				}
+				gotoxy(44, y);
+				YELLOW; cout << "ZADALES " << dmg << "OBRAZEN";
+				y++;
+#endif //debug
+				break;
+			case 'r':
+				if (runAway()) {
+					fight = false;
+					playerRanAway = true;
+#if debug==1
+					if (y == ymax) {
+						clearFightBox();
+						y = 4;
+					}
+					gotoxy(44, y);
+					YELLOW; cout << "UDA£O CI SIÊ UCIEC!";
+					y++;
+#endif //debug
+				}
+				else {
+#if debug==1
+					if (y == ymax) {
+						clearFightBox();
+						y = 4;
+					}
+					gotoxy(44, y);
+					RED; cout << "NIE UDA£O CI SIÊ UCIEC!";
+					y++;
+#endif //debug
+				}
+				break;
+			}
+			if (!playerRanAway) {
+				if(przeciwnik.runOrFight()){
+					if (przeciwnik.runAway()) {
+#if debug==1
+						if (y == ymax) {
+							clearFightBox();
+							y = 4;
+						}
+						gotoxy(44, y);
+						RED; cout << "PRZECIWNIK UCIEKA";
+						y++;
+#endif //debug
+						fight = false;
+						Sleep(1500);
+					}
+					else {
+#if debug==1
+						if (y == ymax) {
+							clearFightBox();
+							y = 4;
+						}
+						gotoxy(44, y);
+						RED; cout << "PRZECIWNIK NIE UCIEK£ CI";
+						y++;
+#endif //debug
+					}
+				}
+				else {
+					dmg = przeciwnik.attack();
+#if debug==1
+					if (y == ymax) {
+						clearFightBox();
+						y = 4;
+					}
+					gotoxy(44, y);
+					LIME; cout << "PRZECIWNIK ATAKUJE ZADAJAC: " << dmg;
+					y++;
+#endif //debug
+					this->getDamage(dmg);
+					gotoxy(63, 32);
+					BLUE; cout << "HP: "; WHITE;
+					gotoxy(78, 32);
+					RED; cout << this->getActualHP(); WHITE; cout << "/" << this->getHP(); WHITE;
+				}
 			}
 		}
-	} while (fight == true);
+	} while (fight!=false);
+	if (dead) {
+		CLS;
+		RED; cout << "YOU DIED!";
+		Sleep(2000);
+		ExitProcess(1337);//being funny, lol
+	}
+	else if (!dead && !playerRanAway) {
+		mapka[playerY][playerX].killEnemy();
+	}
 }
 
 bool Postac::runAway() {
@@ -818,7 +994,25 @@ bool Postac::runAway() {
 
 int Postac::dealDamage()
 {
-	return 0;
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> dmgRand(attackValueMin, attackValueMax);
+	return dmgRand(rng);
+}
+
+void Postac::getDamage(int dmg)
+{
+	this->actualHp -= dmg;
+	if (this->actualHp <= 0) this->actualHp = 0;
+	if (checkDeath()) this->dead = true;
+}
+
+bool Postac::checkDeath()
+{
+	if (this->actualHp <= 0) {
+		return true;
+	}
+	else return false;
 }
 
 void Postac::fight(Enemy przeciwnik) {
@@ -826,23 +1020,25 @@ void Postac::fight(Enemy przeciwnik) {
 		int wybor = 0;
 		gotoxy(44, 3);
 		RED; cout << "NATRAFI£EŒ NA Z£EGO: ";
-		switch (static_cast<int>(przeciwnik.getLook())) {
-		case 0:
+		switch (przeciwnik.getLook()) {
+		case L_ORC:
 			cout << "ORKA";
 			break;
-		case 1:
+		case L_SKELETON:
 			cout << "SZKIELETA";
 			break;
-		case 2:
+		case L_THIEF:
 			cout << "£OTRZYKA";
 			break;
-		case 3:
+		case L_DELF:
 			cout << "CIEMNEGO ELFA";
 			break;
 		}
 		cout << "!";
-		gotoxy(44, 3);
+		gotoxy(44, 4);
 		WHITE; cout << "CO ROBISZ? WALCZYSZ, CZY PRÓBUJESZ UCIEC, TCHÓRZU?!";
+		gotoxy(44, 5);
+		YELLOW; cout << "UCIEKAM"; WHITE; cout << "/"; cout << "WALCZE";
 		do {
 			k = _getch();
 			if (k == DIR_RIGHT)wybor++;
@@ -850,19 +1046,26 @@ void Postac::fight(Enemy przeciwnik) {
 			if (wybor > 1) wybor = 1;
 			else if (wybor < 0) wybor = 0;
 			if (wybor == 0) {
-				gotoxy(44, 4);
+				gotoxy(44, 5);
 				YELLOW; cout << "UCIEKAM"; WHITE; cout << "/"; cout << "WALCZE";
 			}
 			else {
-				gotoxy(44, 4);
+				gotoxy(44, 5);
 				cout << "UCIEKAM"; cout << "/"; 	YELLOW; cout << "WALCZE"; WHITE;
 			}
 		} while (k != ENTER);
 		switch (wybor) {
 		case 0:
-			break;
+			if (runAway()) {
+				break;
+			}
+			else {
+				walka(przeciwnik);
+				break;
+			}
 		case 1:
 			walka(przeciwnik);
+			break;
 		}
 }
 void Postac::openChest() {

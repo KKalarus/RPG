@@ -23,7 +23,7 @@ void Map::setPlace() {
 	cout << "MIEJCE " << place;
 	if (place >= 1 && place <= 14) {
 		this->place = MT_FOREST;
-		if (monster%2==0) {
+		if (monster % 2 == 0) {
 			this->enemy = false;
 		}
 		else {
@@ -32,7 +32,7 @@ void Map::setPlace() {
 	}
 	else if (place >= 15 && place <= 28) {
 		this->place = MT_MOUNTAINS;
-		if (monster%3==0) {
+		if (monster % 3 == 0) {
 			this->enemy = true;
 		}
 		else {
@@ -41,7 +41,7 @@ void Map::setPlace() {
 	}
 	else if (place >= 29 && place <= 33) {
 		this->place = MT_HOUSE;
-		if (monster==6) {
+		if (monster == 6) {
 			this->enemy = true;
 		}
 		else {
@@ -57,9 +57,9 @@ void Map::setPlace() {
 		this->enemy = false;
 	}
 
-	if(chestr==1&&this->place!=MT_CITY) this->chest = true;
+	if (chestr == 1 && this->place != MT_CITY) this->chest = true;
 	else this->chest = false;
-
+	if (this->enemy == true) wasEnemy = true;
 }
 void Map::openChest() {
 	this->chest = false;
@@ -73,6 +73,10 @@ bool Map::isChest() {
 }
 bool Map::isEnemy() {
 	return this->enemy;
+}
+void Map::killEnemy()
+{
+	this->enemy = false;
 }
 void Map::visitPlace()
 {

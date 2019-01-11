@@ -1,4 +1,7 @@
 #ifndef PCH_H
+
+#define debug 1 //Makes run much faseter, skips dialogues
+
 #define PCH_H
 #define DIR_UP 72
 #define DIR_DOWN 80
@@ -18,7 +21,6 @@
 #define GREY color(8,0)
 #define GOLDBG color(6,6)
 #define BLACKBG color(7,0)
-
 #include <iostream>
 #include <Windows.h>
 #include <cstdio>

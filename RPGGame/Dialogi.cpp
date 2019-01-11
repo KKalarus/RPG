@@ -4,6 +4,7 @@
 
 void Dialog1()
 {
+#if debug==0
 	int k;
 	WHITE;
 	gotoxy(71, 17);
@@ -41,45 +42,59 @@ void Dialog1()
 	cout << "-Oh! Wreszcie siê obudzi³eœ"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << ".";  Sleep(500); cout << " A ju¿ ba³em siê, ¿e nigdy tego nie zrobisz, hahaha!" << endl;
 	Sleep(1500);
 	cout << " Dobra. S³uchaj m³ody, koniec tego dobrego. Powiedz mi, co robi³eœ w mieœcie podczas ataku? Wygl¹dasz zadziwiaj¹co znajomo..." << endl;
+#endif
 }
 void introWoj() {
+#if debug==0
 	WHITE;
 	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Wojownik. "; Sleep(900);
 	cout << "Zna³em kilku takich jak Ty."; Sleep(900); cout << " M³ody, narwany."; Sleep(900); cout << " Nie dziwne, ¿e ktoœ spuœci³ Ci srogie lanie.";
+#endif
 }
 void introArch()
 {
+#if debug==0
 	WHITE;
 	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "£ucznik. "; Sleep(900);
 	cout << "Zachcia³o siê polowañ, co?"; Sleep(900); cout << " No có¿, dziwne ¿e tutaj trafi³eœ."; Sleep(900); cout << " Z Twoj¹ zwinnoœci¹, powinieneœ daæ sobie radê.";
+#endif
 }
 void introMage()
 {
+#if debug==0
 	WHITE;
 	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Mag. "; Sleep(900);
 	cout << "Có¿ by to by³ za zaszczyt..."; Sleep(900); cout << " Gdyby nie te okolicznoœci."; Sleep(900); cout << " Myœla³em, ¿e jesteœcie na ogó³ trochê m¹drzejsi.";
+#endif
 }
 void introThief()
 {
+#if debug==0
 	WHITE;
 	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Z³odziej? "; Sleep(900);
 	cout << "Nie s¹dzi³em, ¿e siê tak ³atwo przyznasz."; Sleep(900); cout << " Ale, nie jestem tutaj od sprawiedliwoœci."; Sleep(900); cout << " Przemyœl swoje zachowanie, bêdziesz mia³ na to mnóstwo czasu.";
+#endif
 }
 void introShaman()
 {
+#if debug==0
 	WHITE;
 	cout << endl << "-Ahh"; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "."; Sleep(500); cout << "Szaman. "; Sleep(900);
 	cout << "Tym razem to ja ciebie wskrzesi³em z martwych."; Sleep(900); cout << " *mê¿czyzna zaczyna siê œmiaæ*"; Sleep(900); cout << " Mo¿e kiedyœ mi siê odwdziêczysz.";
+#endif
 }
 void Dialog2()
 {
+#if debug==0
 	WHITE;
 	cout << "-G³upi jesteœ, czy co?!"; Sleep(1200);
 	cout << endl << "*Od wrzasku zadr¿a³y œciany*" << endl; Sleep(1200);
 	cout << "-To widaæ, na pierwszy rzut oka!"; Sleep(1200);
 	cout << endl << " Jak masz na imiê siê pytam!" << endl; Sleep(3000);
+#endif
 }
 void Dialog3() {
+#if debug==0
 	cout << endl << " Pewnie jesteœ ciekaw co siê wydarzy³o, hmm?"; Sleep(1200);
 	cout << endl << " W wielkim skrócie: Znalaz³em Ciê nieprzytomnego, le¿¹cego niedaleko tawerny."; Sleep(2000);
 	cout << endl << " Sytuacja w mieœcie zaczyna³a byæ niezbyt ciekawa, a ¿e alkoholu nie by³o od Ciebie czuæ,to Ciê przygarn¹³em."; Sleep(2500);
@@ -88,6 +103,7 @@ void Dialog3() {
 	cout << endl << "*Próbujesz siê podnieœæ, jednak nasilaj¹cy siê ból ca³ego cia³a nie daje ci wstaæ. Tracisz przytomnoœæ.*"; Sleep(2000);
 	cout << endl << "*Budzi ciê deszcz kapi¹cy przez dach na g³owê. Nie wiesz co siê dzieje, a w mieszkaniu nikogo nie s³ychaæ.*"; Sleep(2000);
 	cout << endl << "*Czujesz siê znacznie lepiej. Ubierasz siê w ciuchy le¿¹ce obok ³ó¿ka i wychodzisz z domku. Po krótkiej wêdrówce trafiasz do miasta...*"; Sleep(2500);
+#endif
 	YELLOW;
 	gotoxy(59,35);
 	cout << "WCISNIJ PRZYCISK BY KONTYNUOWAC";
