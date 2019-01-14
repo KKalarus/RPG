@@ -28,6 +28,10 @@ public:
 	bool isDead(); //DELETE THIS
 	int getHP(); //Gets HP in THIS moment
 	int getMaxHP(); //MAX HP
+	int dropHP();
+	int dropMP();
+	int dropGold(int lvl);
+	int getArmor();
 	~Enemy();
 };
 

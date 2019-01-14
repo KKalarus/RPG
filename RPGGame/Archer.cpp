@@ -15,6 +15,7 @@ void Archer::lvlup()
 {
 	this->lvl++;
 	this->dex += 2;
+	this->freeAbilityPoints += 2;
 }
 
 

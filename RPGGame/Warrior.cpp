@@ -14,6 +14,7 @@ void Warrior::lvlup()
 {
 	this->lvl++;
 	this->str += 2;
+	this->freeAbilityPoints += 2;
 }
 
 

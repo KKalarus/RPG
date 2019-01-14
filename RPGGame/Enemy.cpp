@@ -146,6 +146,29 @@ int Enemy::getMaxHP()
 {
 	return this->health;
 }
+int Enemy::dropHP()
+{
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> HPRand(0, 4);
+	return HPRand(rng);
+}
+int Enemy::dropMP()
+{
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> MPRand(0, 4);
+	return MPRand(rng);
+}
+int Enemy::dropGold(int lvl) {
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> GoldRand(1, lvl*10);
+	return GoldRand(rng);
+}
+int Enemy::getArmor() {
+	return armor;
+}
 Enemy::~Enemy()
 {
 }

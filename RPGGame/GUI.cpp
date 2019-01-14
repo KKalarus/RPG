@@ -6,6 +6,7 @@
 GUI::GUI()
 {
 }
+
 //To sie gdzieœ jebie
 //O ju¿ naprawilem XD
 void GUI::intro(Postac **postac, Warrior &warrior, Archer &archer, Mage &mage, Thief &thief, Shaman &shaman){
@@ -144,7 +145,7 @@ void GUI::drawGUI(Postac *character)
 			gotoxy(63, 34);
 			BLUE; cout << "MANA Potions: "; WHITE;
 			gotoxy(78, 34);
-			cout << character->getHPotions();
+			cout << character->getMPotions();
 				gotoxy(91, 34);
 				BLUE; cout << "Miejsce: "; WHITE;
 				gotoxy(106, 34);
@@ -166,13 +167,17 @@ void GUI::drawGUI(Postac *character)
 					break;
 				}
 }
-void GUI::CharOptions(Postac *character) {
+void GUI::CharOptions(Postac *character, Postac**pointer) {
 	char k;
 	do {
 		k = _getch();
 		switch (k) {
 		case 'i':
 			drawEQ(character);
+			drawGUI(character);
+			break;
+		case 'b':
+			drawStatMenu(pointer);
 			drawGUI(character);
 			break;
 		case DIR_UP:
@@ -282,7 +287,7 @@ gotoxy(14, 30);
 			gotoxy(63, 34);
 			BLUE; cout << "MANA Potions: "; WHITE;
 			gotoxy(78, 34);
-			cout << character->getHPotions();
+			cout << character->getMPotions();
 				gotoxy(91, 34);
 				BLUE; cout << "Miejsce: "; WHITE;
 				gotoxy(106, 34);
@@ -304,10 +309,142 @@ gotoxy(14, 30);
 					break;
 				}
 }
+
+void GUI::drawStatMenu(Postac **character) {
+	char k;
+	int wybor = 0;
+	clearTopLeftBox();
+	for (int i = 2; i < 42; i++) {
+		gotoxy(i, 3);
+		GOLDBG; cout << " "; BLACKBG;
+	}
+		gotoxy(17, 2);
+		cout << "                      ";
+		gotoxy(17, 2);
+		BLUE; cout << "WOLNE PUNKTY: " << (*character)->getFreePoints(); WHITE;
+
+		gotoxy(3, 5);
+		cout << "SILA: "; YELLOW; cout <<  (*character)->getStr(); WHITE;
+		gotoxy(3, 7);
+		 cout << "ZRÊCZNOŒÆ: " << (*character)->getDex(); 
+		gotoxy(3, 9);
+		 cout << "INTELIGENCJA: " << (*character)->getIn(); 
+		gotoxy(3, 11);
+		 cout << "WYTRZYMA£OŒÆ: " << (*character)->getSt(); 
+		gotoxy(3, 13);
+		 cout << "SZCZÊŒCIE: " << (*character)->getLu(); 
+	do {
+		gotoxy(17, 2);
+		BLUE; cout << "WOLNE PUNKTY: " << (*character)->getFreePoints(); WHITE;
+		k = _getch();
+		if (wybor > 4) wybor = 4;
+		else if (wybor < 0) wybor = 0;
+		switch (k) {
+		case DIR_DOWN:
+			wybor++;
+			break;
+		case DIR_UP:
+			wybor--;
+			break;
+		case DIR_RIGHT:
+			if ((*character)->getFreePoints() > 0) {
+				switch (wybor) {
+				case 0:
+					(*character)->modifyStr(1);
+					(*character)->modifyFreePoints(-1);
+					break;
+				case 1:
+					(*character)->modifyDex(1);
+					(*character)->modifyFreePoints(-1);
+					break;
+				case 2:
+					(*character)->modifyIn(1);
+					(*character)->modifyFreePoints(-1);
+					break;
+				case 3:
+					(*character)->modifySt(1);
+					(*character)->modifyFreePoints(-1);
+					break;
+				case 4:
+					(*character)->modifyLu(1);
+					(*character)->modifyFreePoints(-1);
+					break;
+				}
+			}
+		}
+		switch (wybor) {
+		case 0:
+			WHITE;
+			gotoxy(3, 5);
+			cout << "SILA: "; YELLOW; cout << (*character)->getStr(); WHITE;
+			gotoxy(3, 7);
+			cout << "ZRÊCZNOŒÆ: " << (*character)->getDex();
+			gotoxy(3, 9);
+			cout << "INTELIGENCJA: " << (*character)->getIn();
+			gotoxy(3, 11);
+			cout << "WYTRZYMA£OŒÆ: " << (*character)->getSt();
+			gotoxy(3, 13);
+			cout << "SZCZÊŒCIE: " << (*character)->getLu();
+			break;
+		case 1:
+			WHITE;
+			gotoxy(3, 5);
+			cout << "SILA: "; cout << (*character)->getStr();
+			gotoxy(3, 7);
+			cout << "ZRÊCZNOŒÆ: "; YELLOW; cout << (*character)->getDex(); WHITE;
+			gotoxy(3, 9);
+			cout << "INTELIGENCJA: " << (*character)->getIn();
+			gotoxy(3, 11);
+			cout << "WYTRZYMA£OŒÆ: " << (*character)->getSt();
+			gotoxy(3, 13);
+			cout << "SZCZÊŒCIE: " << (*character)->getLu();
+			break;
+		case 2:
+			WHITE;
+			gotoxy(3, 5);
+			cout << "SILA: ";  cout << (*character)->getStr();
+			gotoxy(3, 7);
+			cout << "ZRÊCZNOŒÆ: " << (*character)->getDex();
+			gotoxy(3, 9);
+			cout << "INTELIGENCJA: "; YELLOW; cout << (*character)->getIn(); WHITE;
+			gotoxy(3, 11);
+			cout << "WYTRZYMA£OŒÆ: " << (*character)->getSt();
+			gotoxy(3, 13);
+			cout << "SZCZÊŒCIE: " << (*character)->getLu();
+			break;
+		case 3:
+			WHITE;
+			gotoxy(3, 5);
+			cout << "SILA: ";  cout << (*character)->getStr();
+			gotoxy(3, 7);
+			cout << "ZRÊCZNOŒÆ: " << (*character)->getDex();
+			gotoxy(3, 9);
+			cout << "INTELIGENCJA: " << (*character)->getIn();
+			gotoxy(3, 11);
+			cout << "WYTRZYMA£OŒÆ: "; YELLOW; cout << (*character)->getSt(); WHITE;
+			gotoxy(3, 13);
+			cout << "SZCZÊŒCIE: " << (*character)->getLu();
+			break;
+		case 4:
+			WHITE;
+			gotoxy(3, 5);
+			cout << "SILA: "; (*character)->getStr();
+			gotoxy(3, 7);
+			cout << "ZRÊCZNOŒÆ: " << (*character)->getDex();
+			gotoxy(3, 9);
+			cout << "INTELIGENCJA: " << (*character)->getIn();
+			gotoxy(3, 11);
+			cout << "WYTRZYMA£OŒÆ: " << (*character)->getSt();
+			gotoxy(3, 13);
+			cout << "SZCZÊŒCIE: "; YELLOW; cout << (*character)->getLu(); WHITE;
+			break;
+		}
+	} while (k != ENTER && k!=ESC);
+}
+
 void GUI::drawEQ(Postac *character) {
 	int i = 0;
 	char k;
-	gotoxy(2, 5);
 	character->showEq(i);
 	do {
 		clearTopLeftBox();
@@ -335,6 +472,9 @@ void GUI::drawEQ(Postac *character) {
 		if (k == ENTER) {
 			character->equipItem(i);
 			updateStats(character);
+		}
+		if (k == 'x') {
+			character->dropItem(i);
 		}
 	} while (k != ESC);
 }

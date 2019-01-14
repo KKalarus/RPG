@@ -17,7 +17,7 @@ void test() {
 	game.intro(pointer, warrior, archer, mage, thief, shaman);
 	game.drawGUI(postac);
 	do {
-		game.CharOptions(postac);
+		game.CharOptions(postac, pointer);
 	} while (true);
 }
 int main()

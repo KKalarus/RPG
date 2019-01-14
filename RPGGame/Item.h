@@ -27,14 +27,17 @@ private:
 	int attStr; //Wartoœæ ataku zadawanego przez broñ
 	int armor;
 
+	int price;
+
 	bool isEquiped = false;
 public:
 	Item();
 	Item(TYPE);
-	Item(TYPE,int,string,int,int,int,int,int,int,int,int,int,int,int,int,QUALITY); //Typ przedmiotu, dla kogo, nazwa, wymagana: sila, zrecznosc, inteligencja, wytrzymalosc, szczescie DAWANE: sila, zrecznosc, inta, wytrzymalosc, szczescie, atak, armor, jakosc
+	Item(TYPE,int,string,int,int,int,int,int,int,int,int,int,int,int,int,QUALITY,int); //Typ przedmiotu, dla kogo, nazwa, wymagana: sila, zrecznosc, inteligencja, wytrzymalosc, szczescie DAWANE: sila, zrecznosc, inta, wytrzymalosc, szczescie, atak, armor, jakosc,cena
 	TYPE getType();
+	void drop();
 	Item generateRandomItem(int); //Generates random item based on player level.
-	void showItem(int);
+	void showItem(int); //Shows item, needs playerClass
 
 	int getGStr();
 	int getNStr();
@@ -49,6 +52,8 @@ public:
 	int getClass();
 	int getAttStr();
 	int getArmor();
+
+	int getPrice();
 
 	void equip();
 	void takeOff();

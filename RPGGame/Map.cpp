@@ -20,7 +20,9 @@ void Map::setPlace() {
 	int place = placer(rng);
 	int monster = monsterr(rng);
 	int chestr = chestrr(rng);
-	cout << "MIEJCE " << place;
+#if debug==1
+	cout << "MIEJCE " << place; //shows GENERATION of map
+#endif
 	if (place >= 1 && place <= 14) {
 		this->place = MT_FOREST;
 		if (monster % 2 == 0) {

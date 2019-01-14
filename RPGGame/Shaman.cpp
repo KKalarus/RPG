@@ -15,6 +15,7 @@ void Shaman::lvlup()
 {
 	this->lvl++;
 	this->lu += 2;
+	this->freeAbilityPoints += 2;
 }
 
 Shaman::~Shaman()

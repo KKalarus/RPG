@@ -7,6 +7,9 @@ void setwindowsize(int, int); //USTAWIA KONSOLE NA 150 ZNAKOW SZROKOSCI I 35 WYS
 
 void outline();
 
+void drawBuySellBox();
+void clearBuySellBox();
+
 void clearTopLeftBox();
 
 void clearStatsBox();

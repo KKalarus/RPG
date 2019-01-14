@@ -32,8 +32,14 @@ protected:
 
 	int money = 0; // Pieni¹dze gracza
 	Item eq[15]; //MIEJSCA W EQ
-	int hPotions = 0; // Health potions
-	int mPotions = 0; //Mana Potions
+#if debug==1
+	int hPotions = 8; // Health potions
+	int mPotions = 8; //Mana Potions
+#endif
+#if debug==0
+	int hPotions = 1; // Health potions
+	int mPotions = 1; //Mana Potions
+#endif
 	int lvl=1; //AKTUALNY LVL
 	int lvlmax; //MAX LVL POSTACI, ale idk czy dodawaæ.
 	int xp=0; //Aktualny XP
@@ -73,6 +79,14 @@ public:
 	int getIn();
 	int getLu();
 
+	void modifyStr(int);
+	void modifyDex(int);
+	void modifySt(int);
+	void modifyIn(int);
+	void modifyLu(int);
+
+	void modifyFreePoints(int points);
+
 	int getHPotions();
 
 	int getMPotions();
@@ -95,10 +109,10 @@ public:
 
 	int dealDamage(); //Gets amount of DMG to deal to Enemy
 
-	void getDamage(int); //Gets damage
-
+	bool getDamage(int); //Gets damage
+	bool dodge();//dodges
 	bool checkDeath(); //You lost??
-
+	bool crit(); //Critical hit?
 	bool visit2();
 
 	void walka(Enemy); //Actual fight
@@ -107,11 +121,21 @@ public:
 
 	void openChest(); // Opens chest, adds item to inventory! :D
 
-	void equipItem(int item);
+	void equipItem(int item); // equips item
+
+	void dropItem(int);
+
+	void openShop();
+
+	void sklepKupSprzedaj(int);
+
+	int getFreePoints(); //Returns free ability points
 
 	virtual void atak() = 0; //Atak dla kazdej postaci osobno.
 	virtual void lvlup() = 0; //LVLUp doda okresone umki, w zaleznosci od klasy.
 
+	int drinkMP(); //Drinks mana potion
+	int drinkHP(); //Drinks HP Potion
 	~Postac();
 	void moveStar();
 	bool moveUp();

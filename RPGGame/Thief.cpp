@@ -15,6 +15,7 @@ void Thief::lvlup()
 {
 	this->lvl++;
 	this->st += 2;
+	this->freeAbilityPoints += 2;
 }
 
 Thief::~Thief()

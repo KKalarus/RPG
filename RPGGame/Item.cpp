@@ -2,6 +2,7 @@
 #include "Item.h"
 #include <random>
 #include <fstream>
+#include <vector>
 
 Item::Item()
 {
@@ -27,7 +28,7 @@ Item::Item(TYPE typ) {
 	}
 }
 
-Item::Item(TYPE typ, int forWho, string name, int needStr, int needDex, int needIn, int needSt, int needLu, int giveStr, int giveDex, int giveIn, int giveSt, int giveLu, int attStr, int armor, QUALITY quality)
+Item::Item(TYPE typ, int forWho, string name, int needStr, int needDex, int needIn, int needSt, int needLu, int giveStr, int giveDex, int giveIn, int giveSt, int giveLu, int attStr, int armor, QUALITY quality,int price)
 {
 	this->typ = typ;
 	this->quality = quality;
@@ -48,13 +49,44 @@ Item::Item(TYPE typ, int forWho, string name, int needStr, int needDex, int need
 	this->giveSt = giveSt;
 	this->giveLu = giveLu;
 
+	this->price = price;
+
 }
 
 TYPE Item::getType()
 {
 	return this->typ;
 }
+void Item::drop() 
+{
+	this->typ = T_FREESPACE;
+}
+string nameOfItem(int id) {
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
 
+	fstream plik;
+	vector <string> itemNames;
+
+	if(id==0) plik.open("Swords.txt");
+	else if (id == 1) plik.open("Bows.txt");
+	else if (id == 2) plik.open("Wands.txt");
+	else if (id == 3) plik.open("Daggers.txt");
+	else if (id == 4) plik.open("OrcStuff.txt");
+	else if (id == 5) plik.open("Armors.txt");
+	else if (id == 6) plik.open("Necklaces.txt");
+	else if (id == 7) plik.open("Rings.txt");
+
+	do {
+		string temp;
+		plik >> temp;
+		itemNames.push_back(temp);
+	} while (!plik.eof());
+
+	std::uniform_int_distribution<std::mt19937::result_type> nameRand(0, itemNames.size()-1);
+	int x = nameRand(rng);
+	return itemNames[x];
+}
 Item Item::generateRandomItem(int playerLevel) {
 
 
@@ -119,33 +151,24 @@ Item Item::generateRandomItem(int playerLevel) {
 	int givesSt = 0;
 	int givesLu = 0;
 
-	string name = "name";
-
-	ifstream swords("Swords.txt");
-	ifstream bows("Bows.txt");
-	ifstream daggers("Daggers.txt");
-	ifstream wands("Wands.txt");
-	ifstream orcStuff("OrcStuff.txt");
-	ifstream armors("Armors.txt");
-	ifstream rings("Rings.txt");
-	ifstream necklaces("Necklaces.txt");
-	
-
-
-
+	string name = "DEFAULT NAME";
 
 	switch (static_cast<int>(type)) {
 	case 0: //Generates weapon
 		attStr = attackRand(rng) / static_cast<int>(quality + 1); // Sila ataku to WYGENEROWANY ATAK podzielony przez jakoœæ + 1, czyli legendarka ma normalny, a smiec /4
 		switch (forWho) {
 		case 0:
+		{
+			name = nameOfItem(forWho);
 			needStr = baseNeedRand(rng);
 			needSt = secondaryNeedRand(rng);
 			needIn = randPerk(rng);
 			needDex = randPerk(rng);
 			needLu = randPerk(rng);
 			break;
+		}
 		case 1:
+			name = nameOfItem(forWho);
 			needDex = baseNeedRand(rng);
 			needLu = secondaryNeedRand(rng);
 			needIn = randPerk(rng);
@@ -153,6 +176,7 @@ Item Item::generateRandomItem(int playerLevel) {
 			needLu = randPerk(rng);
 			break;
 		case 2:
+			name = nameOfItem(forWho);
 			needIn = baseNeedRand(rng);
 			needLu = secondaryNeedRand(rng);
 			needSt = randPerk(rng);
@@ -160,6 +184,7 @@ Item Item::generateRandomItem(int playerLevel) {
 			needDex = randPerk(rng);
 			break;
 		case 3:
+			name = nameOfItem(forWho);
 			needSt = baseNeedRand(rng);
 			needDex = secondaryNeedRand(rng);
 			needIn = randPerk(rng);
@@ -167,6 +192,7 @@ Item Item::generateRandomItem(int playerLevel) {
 			needLu = randPerk(rng);
 			break;
 		case 4:
+			name = nameOfItem(forWho);
 			needLu = baseNeedRand(rng);
 			needStr = secondaryNeedRand(rng);
 			needIn = randPerk(rng);
@@ -177,6 +203,7 @@ Item Item::generateRandomItem(int playerLevel) {
 		break;
 	case 1: //Random armor
 		forWho = 5;
+		name = nameOfItem(forWho);
 		armor = armorRand(rng) / static_cast<int>(quality+1);
 		needIn = randPerk(rng) / static_cast<int>(quality + 1);
 		needDex = randPerk(rng) / static_cast<int>(quality + 1);
@@ -186,6 +213,7 @@ Item Item::generateRandomItem(int playerLevel) {
 		break;
 	case 2: //random Necklace
 		forWho = 5;
+		name = nameOfItem(6);
 		givesIn = randPerkq(rng) / static_cast<int>(quality + 1)+level/5;
 		givesDex = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
 		givesLu = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
@@ -194,6 +222,7 @@ Item Item::generateRandomItem(int playerLevel) {
 		break;
 	case 3: //random Ring
 		forWho = 5;
+		name = nameOfItem(7);
 		givesIn = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
 		givesDex = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
 		givesLu = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
@@ -201,10 +230,12 @@ Item Item::generateRandomItem(int playerLevel) {
 		givesStr = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
 		break;
 	}
-	return Item(type,forWho,name,needStr,needDex,needIn,needSt,needLu,givesStr,givesDex,givesIn,givesSt,givesLu,attStr,armor,quality);
+	int price = ((givesStr + givesDex + givesIn + givesLu + givesSt + attStr + armor) * 10)*(q + 1);
+	return Item(type, forWho, name, needStr, needDex, needIn, needSt, needLu, givesStr, givesDex, givesIn, givesSt, givesLu, attStr, armor, quality, price);
 }
 
 void Item::showItem(int playerClass){
+	gotoxy(2, 5);
 	BLUE; cout << "Typ przedmiotu : "; WHITE;
 	switch (static_cast<int>(this->typ)) {
 	case 0:
@@ -411,6 +442,10 @@ bool Item::isItemEquiped()
 	return this->isEquiped;
 }
 
+int Item::getPrice() 
+{
+	return this->price;
+}
 
 Item::~Item()
 {

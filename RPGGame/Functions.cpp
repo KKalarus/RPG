@@ -49,11 +49,47 @@ void outline() {
 		}
 	}
 }
+void drawBuySellBox()
+{
+	//x-2-32
+	//y-5-15
+	for (int y = 4; y < 17; y++) {
+		for (int x = 1; x < 34; x++) {
+			if (y > 4 && y < 16) {
+				if (x == 1 || x == 33) {
+					gotoxy(x, y);
+					GOLDBG; cout << " ";
+				}
+			}
+			else {
+				gotoxy(x, y);
+				GOLDBG; cout << " ";
+			}
+		}
+	}
+	WHITE;
+}
+void clearBuySellBox() {
+	for (int y = 5; y < 16; y++) {
+		for (int x = 2; x < 33; x++) {
+			gotoxy(x, y);
+			BLACKBG; cout << " ";
+		}
+	}
+}
 void clearTopLeftBox() {
 	for (int i = 2; i < 29; i++) {
 		for (int j = 2; j < 42; j++) {
 			gotoxy(j, i);
 			BLACKBG; cout << " ";
+		}
+	}
+}
+void drawTopLeftBox() {
+	for (int i = 1; i < 30; i++) {
+		for (int j = 1; j < 43; j++) {
+			gotoxy(j, i);
+			GOLDBG; cout << " ";
 		}
 	}
 }
