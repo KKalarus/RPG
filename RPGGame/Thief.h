@@ -5,7 +5,7 @@ class Thief :public Postac
 {
 public:
 	Thief(CLASS);
-	void atak();
+	int atak();
 	void lvlup();
 	~Thief();
 };

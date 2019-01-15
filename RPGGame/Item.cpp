@@ -79,7 +79,7 @@ string nameOfItem(int id) {
 
 	do {
 		string temp;
-		plik >> temp;
+		getline(plik, temp);
 		itemNames.push_back(temp);
 	} while (!plik.eof());
 

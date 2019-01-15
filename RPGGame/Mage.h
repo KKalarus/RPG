@@ -5,7 +5,7 @@ class Mage :public Postac
 {
 public:
 	Mage(CLASS);
-	void atak();
+	int atak();
 	void lvlup();
 	~Mage();
 };

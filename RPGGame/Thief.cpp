@@ -7,8 +7,17 @@ Thief::Thief(CLASS)
 }
 
 
-void Thief::atak()
+int Thief::atak()
 {
+	if (this->actualMana >= 65) {
+		LIME; cout << "WBIJASZ PRZECIWNIKOWI NÓ¯ W PLECY!";
+		this->actualMana -= 65;
+		return attackValueMax + dex * 2;
+	}
+	else {
+		LIME; cout << "NIE POSIADASZ WYSTARCZAJ¥CEJ ILOŒCI ENERGII! (65)";
+		return 0;
+	}
 }
 
 void Thief::lvlup()

@@ -7,8 +7,7 @@ GUI::GUI()
 {
 }
 
-//To sie gdzieœ jebie
-//O ju¿ naprawilem XD
+
 void GUI::intro(Postac **postac, Warrior &warrior, Archer &archer, Mage &mage, Thief &thief, Shaman &shaman){
 	CLASS klasa;
 	Dialog1();
@@ -319,7 +318,7 @@ void GUI::drawStatMenu(Postac **character) {
 		GOLDBG; cout << " "; BLACKBG;
 	}
 		gotoxy(17, 2);
-		cout << "                      ";
+		cout << "                    ";
 		gotoxy(17, 2);
 		BLUE; cout << "WOLNE PUNKTY: " << (*character)->getFreePoints(); WHITE;
 
@@ -334,6 +333,8 @@ void GUI::drawStatMenu(Postac **character) {
 		gotoxy(3, 13);
 		 cout << "SZCZÊŒCIE: " << (*character)->getLu(); 
 	do {
+		gotoxy(17, 2);
+		cout << "                    ";
 		gotoxy(17, 2);
 		BLUE; cout << "WOLNE PUNKTY: " << (*character)->getFreePoints(); WHITE;
 		k = _getch();

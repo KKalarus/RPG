@@ -6,8 +6,17 @@ Mage::Mage(CLASS)
 {
 }
 
-void Mage::atak()
+int Mage::atak()
 {
+	if (this->actualMana >= 100) {
+		LIME; cout << "CASTUJESZ FIREBALLA W PRZECIWNIKA!";
+		this->actualMana -= 100;
+		return in * 10;
+	}
+	else {
+		LIME; cout << "NIE POSIADASZ WYSTARCZAJ¥CEJ ILOŒCI ENERGII! (100)";
+		return 0;
+	}
 }
 
 void Mage::lvlup()

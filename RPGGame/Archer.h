@@ -5,7 +5,7 @@ class Archer :public Postac
 {
 public:
 	Archer(CLASS);
-	void atak();
+	int atak();
 	void lvlup();
 	~Archer();
 };

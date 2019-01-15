@@ -116,3 +116,27 @@ int chanceR() {
 	std::uniform_int_distribution<std::mt19937::result_type> chanceR(1, 100);
 	return chanceR(rng);
 }
+
+bool menu() {
+	char k;
+	gotoxy(57, 17);
+	YELLOW; cout << "WCISNIJ ENTER BY ZACZ¥Æ PRZYGODÊ";
+	gotoxy(57, 18);
+	YELLOW; cout << " WCISNIJ ESCAPE BY WYJŒÆ Z GRY";
+	do {
+		k=_getch();
+		if (k == ENTER) return true;
+		if (k == ESC) return false;
+	} while (true);
+}
+
+void ShowConsoleCursor(bool showFlag)
+{
+	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	CONSOLE_CURSOR_INFO     cursorInfo;
+
+	GetConsoleCursorInfo(out, &cursorInfo);
+	cursorInfo.bVisible = showFlag; // set the cursor visibility
+	SetConsoleCursorInfo(out, &cursorInfo);
+}

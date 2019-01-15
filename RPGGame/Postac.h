@@ -37,8 +37,8 @@ protected:
 	int mPotions = 8; //Mana Potions
 #endif
 #if debug==0
-	int hPotions = 1; // Health potions
-	int mPotions = 1; //Mana Potions
+	int hPotions = 6; // Health potions
+	int mPotions = 4; //Mana Potions
 #endif
 	int lvl=1; //AKTUALNY LVL
 	int lvlmax; //MAX LVL POSTACI, ale idk czy dodawaæ.
@@ -131,7 +131,7 @@ public:
 
 	int getFreePoints(); //Returns free ability points
 
-	virtual void atak() = 0; //Atak dla kazdej postaci osobno.
+	virtual int atak() = 0; //Atak dla kazdej postaci osobno.
 	virtual void lvlup() = 0; //LVLUp doda okresone umki, w zaleznosci od klasy.
 
 	int drinkMP(); //Drinks mana potion

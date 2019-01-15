@@ -7,8 +7,17 @@ Shaman::Shaman(CLASS)
 }
 
 
-void Shaman::atak()
+int Shaman::atak()
 {
+	if (this->actualMana >= 50) {
+		LIME; cout << "LECZYSZ SIÊ KOSZTEM MA£EJ ILOŒCI MANY!";
+		this->actualMana -= 50;
+		return lu * 5 + in*2;
+	}
+	else {
+		LIME; cout << "NIE POSIADASZ WYSTARCZAJ¥CEJ ILOŒCI ENERGII! (90)";
+		return 0;
+	}
 }
 
 void Shaman::lvlup()

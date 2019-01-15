@@ -17,3 +17,9 @@ void clearStatsBox();
 void clearFightBox();
 
 int chanceR();
+
+bool menu();
+
+void game();
+
+void ShowConsoleCursor(bool showFlag);

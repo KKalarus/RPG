@@ -5,7 +5,7 @@ class Warrior :public Postac
 {
 public:
 	Warrior(CLASS);
-	void atak();
+	int atak();
 	void lvlup();
 	~Warrior();
 };

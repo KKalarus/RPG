@@ -22,7 +22,7 @@ void Postac::showmap(Map*mapPointer) { //Just for debugging, shows generated map
 }
 int Postac::drinkMP()
 {
-	if (this->actualMana < this->mana && mPotions>0) {
+	if ((this->actualMana < this->mana) && mPotions>0) {
 		mPotions--;
 		this->actualMana += 100 + in * 5;
 		if (this->actualMana > this->mana) actualMana = mana;
@@ -37,7 +37,7 @@ int Postac::drinkMP()
 }
 int Postac::drinkHP()
 {
-	if (this->actualHp < this->hp && hPotions>0) {
+	if ((this->actualHp < this->hp) && hPotions>0) {
 		hPotions--;
 		this->actualHp += 100 + in * 5;
 		if (this->actualHp > this->hp) actualHp = hp;
@@ -903,7 +903,7 @@ void Postac::walka(Enemy przeciwnik) {
 	int dropHP, dropMP, dropGold;
 	clearFightBox();
 	gotoxy(44, 28);
-	WHITE; cout << "WCISNIJ <"; YELLOW; cout << "ENTER"; WHITE; cout << "> ABY ZAATAKOWAÆ	WCISNJ <"; YELLOW; cout << "G"; WHITE;cout<<"> BY U¯YÆ UMIEJÊTNOŒCI		WCISNIJ < "; YELLOW; cout << "R"; WHITE; cout << "> BY UCIEC";
+	WHITE; cout << "WCISNIJ <"; YELLOW; cout << "ENTER"; WHITE; cout << "> ABY ZAATAKOWAÆ	WCISNJ <"; YELLOW; cout << "G"; WHITE;cout<<"> BY U¯YÆ UMIEJÊTNOŒCI		WCISNIJ <"; YELLOW; cout << "R"; WHITE; cout << "> BY UCIEC";
 	gotoxy(44, 27);
 	WHITE; cout << "WCISNIJ <"; RED; cout << "H"; WHITE; cout << "> ABY UZYC MIKSTURY ZYCIA		WCISNIJ <"; BLUE; cout << "M"; WHITE; cout << "> BY WYPIC MIKSTURE MANY";
 	gotoxy(44, 2);
@@ -945,8 +945,50 @@ void Postac::walka(Enemy przeciwnik) {
 				RED; cout << "ENEMY HP: " << przeciwnik.getHP() << "/" << przeciwnik.getMaxHP();
 				do {
 					k = _getch();
-				} while (k != ENTER && k != 'r' && k != 'h' && k != 'm');
+				} while (k != ENTER && k != 'r' && k != 'h' && k != 'm' && k!='g');
 				switch (k) {
+				case 'g':
+					if (y == ymax) {
+						clearFightBox();
+						y = 4;
+					}
+					gotoxy(44, y);
+					dmg = this->atak();
+					if (dmg != 0) {
+						if (getClass() != C_SHAMAN) {
+							przeciwnik.getDamage(dmg);
+							y++;
+							switch (getClass()) {
+							case C_WARRIOR:
+							case C_ARCHER:
+							case C_MAGE:
+								turnEnded = true;
+								break;
+							case C_THIEF:
+							case C_SHAMAN:
+								break;
+							}
+						}
+						else {
+							this->actualHp += dmg;
+							if (this->actualHp > hp) actualHp = hp;
+							y++;
+							gotoxy(63, 32);
+							BLUE; cout << "HP: "; WHITE;
+							gotoxy(78, 32);
+							cout << "              ";
+							gotoxy(78, 32);
+							RED; cout << getActualHP(); WHITE; cout << "/" << getHP();
+						}
+						gotoxy(63, 33);
+						BLUE; cout << "MANA: "; WHITE;
+						gotoxy(78, 33);
+						cout << "              ";
+						gotoxy(78, 33);
+						cout << getActualMana() << "/" << getMana();
+					}
+					else y++;
+					break;
 				case ENTER:
 					crit = this->crit();
 					if (crit) dmg = dealDamage() * 2 - przeciwnik.getArmor();
@@ -1446,6 +1488,22 @@ void Postac::sklepKupSprzedaj(int opcja) {
 		cout << "              ";
 		gotoxy(2, 15);
 		cout << "CENA: " << sklep[item].getPrice();
+		for (int i = 17; i <= 22; i++) {
+			for (int j = 1; j <= 33; j++) {
+				if (i < 22 && (j == 1 || j == 33)) {
+					gotoxy(j, i);
+					GOLDBG; cout << " ";
+				}
+				if (i == 22) {
+					gotoxy(j, i);
+					GOLDBG; cout << " ";
+				}
+			}
+		}
+		gotoxy(2, 18);
+		RED; cout << "<H> MIKSTURA ¯YCIA"; YELLOW; cout << " (25)";
+		gotoxy(2, 20);
+		BLUE; cout << "<M> MIKSTURA MANY"; YELLOW; cout << " (30)";
 		do {
 			k = _getch();
 			drawBuySellBox();
@@ -1456,6 +1514,18 @@ void Postac::sklepKupSprzedaj(int opcja) {
 				break;
 			case DIR_RIGHT:
 				item++;
+				break;
+			case 'h':
+				if (money > 25) {
+					hPotions++;
+					money -= 25;
+				}
+				break;
+			case 'm':
+				if (money > 30) {
+					mPotions++;
+					money -= 30;
+				}
 				break;
 			case ENTER:
 				for (int i = 0; i < 15; i++) {
@@ -1481,6 +1551,22 @@ void Postac::sklepKupSprzedaj(int opcja) {
 			cout << "              ";
 			gotoxy(2, 15);
 			cout << "CENA: " << sklep[item].getPrice();
+			for (int i = 17; i <= 22; i++) {
+				for (int j = 1; j <= 33; j++) {
+					if (i < 22 && (j == 1 || j == 33)) {
+						gotoxy(j, i);
+						GOLDBG; cout << " ";
+					}
+					if (i == 22) {
+						gotoxy(j, i);
+						GOLDBG; cout << " ";
+					}
+				}
+			}
+			gotoxy(2, 18);
+			RED; cout << "<H> MIKSTURA ¯YCIA"; YELLOW; cout << " (25)";
+			gotoxy(2, 20);
+			BLUE; cout << "<M> MIKSTURA MANY"; YELLOW; cout << " (30)";
 		} while (k != ESC);
 	}
 	else {

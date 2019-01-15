@@ -5,9 +5,17 @@ Warrior::Warrior(CLASS)
 {
 }
 
-void Warrior::atak()
+int Warrior::atak()
 {
-	cout << "Warrior atakuje";
+	if (this->actualMana >= 75) {
+		LIME; cout << "WYKORZYSTUJESZ S£ABY PUNKT PRZECIWNIKA!";
+		this->actualMana -= 75;
+		return this->attackValueMax * 2;
+	}
+	else {
+		LIME; cout << "NIE POSIADASZ WYSTARCZAJ¥CEJ ILOŒCI ENERGII! (75)";
+		return 0;
+	}
 }
 
 void Warrior::lvlup()

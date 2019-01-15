@@ -4,7 +4,7 @@ class Shaman :public Postac
 {
 public:
 	Shaman(CLASS);
-	void atak();
+	int atak();
 	void lvlup();
 	~Shaman();
 };
