@@ -116,6 +116,18 @@ bool Postac::moveRight() {
 	}
 	else return false;
 }
+void Postac::recalculateAttack()
+{
+	this->attackValueMax = 3 + str;
+}
+void Postac::recalculateHP()
+{
+	this->hp = 90 + st * 10;
+}
+void Postac::recalculateMANA()
+{
+	this->mana = 60 + in * 12;
+}
 CLASS Postac::chooseClass()
 {
 	YELLOW;
@@ -988,6 +1000,33 @@ void Postac::walka(Enemy przeciwnik) {
 						cout << getActualMana() << "/" << getMana();
 					}
 					else y++;
+					if (przeciwnik.isDead()) {
+						fight = false;
+						dropHP = przeciwnik.dropHP();
+						dropMP = przeciwnik.dropMP();
+						dropGold = przeciwnik.dropGold(this->lvl);
+						gotoxy(44, y);
+						YELLOW; cout << "PRZECIWNIK POKONANY! W JEGO TRUCHLE ZNALAZ£EŒ: ";
+						y++;
+						if (y == ymax) {
+							clearFightBox();
+							y = 4;
+						}
+						gotoxy(44, y);
+						RED; cout << dropHP << " MIKSTUR ¯YCIA"; WHITE; cout << " , "; BLUE; cout << dropMP << " MIKSTUR MANY";
+						y++;
+						if (y == ymax) {
+							clearFightBox();
+							y = 4;
+						}
+						gotoxy(44, y);
+						WHITE; cout << "ORAZ "; YELLOW; cout << dropGold; WHITE; cout << " CEBULIONÓW";
+						hPotions += dropHP;
+						mPotions += dropMP;
+						money += dropGold;
+						Sleep(2500);
+						turnEnded = true;
+					}
 					break;
 				case ENTER:
 					crit = this->crit();
@@ -1686,6 +1725,7 @@ int Postac::getFreePoints()
 	void Postac::modifyStr(int points)
 	{
 		this->str += points;
+		recalculateAttack();
 	}
 	void Postac::modifyDex(int points)
 	{
@@ -1694,10 +1734,12 @@ int Postac::getFreePoints()
 	void Postac::modifySt(int points)
 	{
 		this->st += points;
+		recalculateHP();
 	}
 	void Postac::modifyIn(int points)
 	{
 		this->in += points;
+		recalculateMANA();
 	}
 	void Postac::modifyLu(int points)
 	{

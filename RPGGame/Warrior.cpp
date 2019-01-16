@@ -21,7 +21,7 @@ int Warrior::atak()
 void Warrior::lvlup()
 {
 	this->lvl++;
-	this->str += 2;
+	this->modifyStr(2);
 	this->freeAbilityPoints += 2;
 }
 

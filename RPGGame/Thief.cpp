@@ -23,7 +23,7 @@ int Thief::atak()
 void Thief::lvlup()
 {
 	this->lvl++;
-	this->st += 2;
+	this->modifySt(2);
 	this->freeAbilityPoints += 2;
 }
 

@@ -22,7 +22,7 @@ int Mage::atak()
 void Mage::lvlup()
 {
 	this->lvl++;
-	this->in += 2;
+	this->modifyIn(2);
 	this->freeAbilityPoints += 2;
 }
 

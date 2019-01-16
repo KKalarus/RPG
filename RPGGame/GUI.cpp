@@ -347,31 +347,43 @@ void GUI::drawStatMenu(Postac **character) {
 		case DIR_UP:
 			wybor--;
 			break;
-		case DIR_RIGHT:
+		case ENTER:
 			if ((*character)->getFreePoints() > 0) {
 				switch (wybor) {
 				case 0:
-					(*character)->modifyStr(1);
-					(*character)->modifyFreePoints(-1);
+					if ((*character)->getStr() < 100) {
+						(*character)->modifyStr(1);
+						(*character)->modifyFreePoints(-1);
+					}
 					break;
 				case 1:
-					(*character)->modifyDex(1);
-					(*character)->modifyFreePoints(-1);
+					if ((*character)->getDex() < 100){
+						(*character)->modifyDex(1);
+						(*character)->modifyFreePoints(-1);
+					}
 					break;
 				case 2:
-					(*character)->modifyIn(1);
-					(*character)->modifyFreePoints(-1);
+					if ((*character)->getIn() < 100) {
+						(*character)->modifyIn(1);
+						(*character)->modifyFreePoints(-1);
+					}
 					break;
 				case 3:
-					(*character)->modifySt(1);
-					(*character)->modifyFreePoints(-1);
+					if ((*character)->getSt() < 100) {
+						(*character)->modifySt(1);
+						(*character)->modifyFreePoints(-1);
+					}
 					break;
 				case 4:
-					(*character)->modifyLu(1);
-					(*character)->modifyFreePoints(-1);
+					if ((*character)->getLu() < 100) {
+						(*character)->modifyLu(1);
+						(*character)->modifyFreePoints(-1);
+					}
 					break;
 				}
 			}
+			updateStats(*character);
+			break;
 		}
 		switch (wybor) {
 		case 0:
@@ -440,7 +452,7 @@ void GUI::drawStatMenu(Postac **character) {
 			cout << "SZCZʌCIE: "; YELLOW; cout << (*character)->getLu(); WHITE;
 			break;
 		}
-	} while (k != ENTER && k!=ESC);
+	} while (k!=ESC && k!='b');
 }
 
 void GUI::drawEQ(Postac *character) {
@@ -477,7 +489,7 @@ void GUI::drawEQ(Postac *character) {
 		if (k == 'x') {
 			character->dropItem(i);
 		}
-	} while (k != ESC);
+	} while (k != ESC&& k!='i');
 }
 
 GUI::~GUI()

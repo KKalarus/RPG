@@ -142,4 +142,8 @@ public:
 	bool moveDown();
 	bool moveLeft();
 	bool moveRight();
+
+	void recalculateAttack();
+	void recalculateHP();
+	void recalculateMANA();
 };
