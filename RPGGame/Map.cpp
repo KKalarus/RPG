@@ -9,6 +9,8 @@ Map::Map()
 
 void Map::setCity() {
 	this->place = MT_CITY;
+	this->enemy = false;
+	this->chest = false;
 }
 
 void Map::setPlace() {

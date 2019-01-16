@@ -489,7 +489,7 @@ void GUI::drawEQ(Postac *character) {
 		if (k == 'x') {
 			character->dropItem(i);
 		}
-	} while (k != ESC&& k!='i');
+	} while (k != ESC && k!='i');
 }
 
 GUI::~GUI()
