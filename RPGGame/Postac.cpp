@@ -1640,7 +1640,7 @@ void Postac::sklepKupSprzedaj(int opcja) {
 				break;
 			}
 			if (item < 0) item = 0;
-			if (item > 4) item = 4;
+			if (item > 14) item = 14;
 			eq[item].showItem(static_cast<int>(this->klasa));
 			gotoxy(2, 15);
 			cout << "              ";
