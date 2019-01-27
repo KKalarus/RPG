@@ -97,19 +97,19 @@ Item Item::generateRandomItem(int playerLevel) {
 	std::uniform_int_distribution<std::mt19937::result_type> qualityRand(1,20);
 	std::uniform_int_distribution<std::mt19937::result_type> classRand(0,4);
 
-	int level = levelRand(rng) - 2; //Losowy level itemka (+-2 od gracza)
+	int level = levelRand(rng) - 2; //Random item level (playerlvl+-2)
 	if (level < 1) {
 		level = 1;
-	}	//Gdy level mniejszy niz 1, to 1
+	} 
 
 
 
 	int x = 1 + level * 4 / static_cast<int>(quality + 1) / 3;
 	if (x < level) x = level;
 
-	TYPE type = static_cast<TYPE>(typeRand(rng)); // Losowy typ dropionego przedmiotu
+	TYPE type = static_cast<TYPE>(typeRand(rng)); // Random type of item
 	QUALITY quality;
-	int qualityTemp = qualityRand(rng); //Losowo generuje jakoœæ przedmiotu. Szansa na œmieæ 20%, na common 65%, na rare 10%, na legendaty 5%!
+	int qualityTemp = qualityRand(rng); //Random quality - trash 20%, common 65%, rare 10%, legendary 5%!
 	if (qualityTemp > 4) {
 		if (qualityTemp >= 18) {
 			if (qualityTemp == 20) quality = Q_LEGENDARY;
@@ -119,7 +119,7 @@ Item Item::generateRandomItem(int playerLevel) {
 	}
 	else quality = Q_TRASH;
 
-	int q; //modifier dla bi¿uterii
+	int q; //modifier for jevelery
 	if (quality == Q_LEGENDARY) q = 3;
 	if (quality == Q_RARE) q = 2;
 	if (quality == Q_COMMON) q = 1;
@@ -131,8 +131,8 @@ Item Item::generateRandomItem(int playerLevel) {
 	std::uniform_int_distribution<std::mt19937::result_type> randPerk(1, level + quality);
 	std::uniform_int_distribution<std::mt19937::result_type> armorRand(level, level + level * 4);
 	std::uniform_int_distribution<std::mt19937::result_type> attackRand(level, level + level * 4);
-	std::uniform_int_distribution<std::mt19937::result_type> baseNeedRand(level, 1 + level * 4 / static_cast<int>(quality + 1)); //Glowny wymagany perk dla danej klasy - [level itema;levelItema*4/jakosc]
-	std::uniform_int_distribution<std::mt19937::result_type> secondaryNeedRand(level, x); //Drugi perk dodatkowo
+	std::uniform_int_distribution<std::mt19937::result_type> baseNeedRand(level, 1 + level * 4 / static_cast<int>(quality + 1)); //Main needed perk for class - [level of Item ;level of Item *4/quality]
+	std::uniform_int_distribution<std::mt19937::result_type> secondaryNeedRand(level, x); //Second needed perk
 
 
 
@@ -155,7 +155,7 @@ Item Item::generateRandomItem(int playerLevel) {
 
 	switch (static_cast<int>(type)) {
 	case 0: //Generates weapon
-		attStr = attackRand(rng) / static_cast<int>(quality + 1); // Sila ataku to WYGENEROWANY ATAK podzielony przez jakoœæ + 1, czyli legendarka ma normalny, a smiec /4
+		attStr = attackRand(rng) / static_cast<int>(quality + 1); //Attack strength is randomised attack divided by quality + 1
 		switch (forWho) {
 		case 0:
 		{
@@ -230,6 +230,18 @@ Item Item::generateRandomItem(int playerLevel) {
 		givesStr = randPerkq(rng) / static_cast<int>(quality + 1) + level / 5;
 		break;
 	}
+	if (needStr > 100) needStr = 100;
+	if (needDex > 100) needDex = 100;
+	if (needSt > 100) needSt = 100;
+	if (needIn > 100) needIn = 100;
+	if (needLu > 100) needLu = 100;
+
+	if (givesStr > 25) givesStr = 25;
+	if (givesDex > 25) givesDex = 25;
+	if (givesSt > 25) givesSt = 25;
+	if (givesIn > 25) givesIn = 25;
+	if (givesLu > 25) givesLu = 25;
+
 	int price = ((givesStr + givesDex + givesIn + givesLu + givesSt + attStr + armor) * 10)*(q + 1);
 	return Item(type, forWho, name, needStr, needDex, needIn, needSt, needLu, givesStr, givesDex, givesIn, givesSt, givesLu, attStr, armor, quality, price);
 }

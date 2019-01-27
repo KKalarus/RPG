@@ -1,6 +1,6 @@
 #ifndef PCH_H
 
-#define debug 0 //Makes run much faseter, skips dialogues
+#define debug 1 //Makes run much faseter, skips dialogues
 
 #define PCH_H
 #define DIR_UP 72

@@ -42,7 +42,7 @@ void Enemy::generateRandomEnemy(int playerLevel, int playerAttack)
 	skillPoints -= dodgePoints;
 	runAwayPoints = skillPoints;
 	if (runAwayPoints > 100) runAwayPoints = 100;
-	if (dodgePoints > 200) dodgePoints = 200;
+	if (dodgePoints > 100) dodgePoints = 100;
 	Item x;
 	do {
 		x = x.generateRandomItem(playerLevel);
